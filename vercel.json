@@ -1,12 +1,9 @@
 {
-  "routes": [
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "/(assets|img|logo.png|favicon.ico|_redirects)(.*)",
-      "dest": "/$1$2"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
