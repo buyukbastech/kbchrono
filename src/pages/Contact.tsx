@@ -23,8 +23,8 @@ const Contact = () => {
     {
       icon: <Mail className="w-5 h-5 text-primary" />,
       label: t("contact.emailLabel"),
-      value: "korayunalan97@gmail.com",
-      href: "mailto:korayunalan97@gmail.com"
+      value: "info@kbchrono.com",
+      href: "mailto:info@kbchrono.com"
     }
   ];
 
