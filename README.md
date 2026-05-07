@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# kbchrono — Swiss Haute Horlogerie
 
-TODO: Document your project here
+A luxury timepiece storefront showcasing kbchrono's exceptional collection.
