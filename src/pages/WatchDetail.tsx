@@ -233,7 +233,7 @@ const WatchDetail = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-4">
               <a
-                href="https://wa.me/905307300000"
+                href="https://wa.me/905306044763"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gradient-gold text-primary-foreground px-10 py-4 text-xs tracking-[0.3em] uppercase font-semibold hover:opacity-90 transition-opacity duration-300 text-center"
@@ -241,7 +241,7 @@ const WatchDetail = () => {
                 {t("common.requestInfo")}
               </a>
               <a
-                href="https://wa.me/905307300000"
+                href="https://wa.me/905306044763"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-primary/30 text-foreground px-10 py-4 text-xs tracking-[0.3em] uppercase font-semibold hover:border-primary/60 transition-colors duration-300 text-center"
