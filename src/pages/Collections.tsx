@@ -1,4 +1,4 @@
-import LuxuryNav from "@/components/LuxuryNav";
+import CollectionsHeader from "@/components/CollectionsHeader";
 import CollectionGrid from "@/components/CollectionGrid";
 import LuxuryFooter from "@/components/LuxuryFooter";
 import { useEffect } from "react";
@@ -9,11 +9,9 @@ const Collections = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      <LuxuryNav />
-      <div className="pt-20">
-        <CollectionGrid />
-      </div>
+    <div className="min-h-screen" style={{ background: "#000000" }}>
+      <CollectionsHeader />
+      <CollectionGrid />
       <LuxuryFooter />
     </div>
   );

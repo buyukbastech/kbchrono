@@ -228,7 +228,11 @@ const WatchDetail = () => {
             </p>
 
             <p className="text-2xl font-bold text-gradient-gold mb-12 reveal reveal-delay-3">
-              {watch.price}
+              {watch.price ? (() => {
+                const clean = watch.price.replace(/[₺$\s.]/g, '');
+                const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                return `$ ${formatted}`; // "Quiet Luxury" için hafif boşluklu lüks format: $ 48.500
+              })() : ''}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-4">

@@ -10,7 +10,7 @@ const LuxuryFooter = () => {
           {/* Brand */}
           <div className="md:col-span-3">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/logo.png" alt="kbchrono" className="h-16 w-auto" />
+              <img src="/kb-logo.png" alt="kbchrono" className="h-16 w-auto" />
               <p className="text-gradient-gold text-xl font-bold tracking-[0.3em] uppercase">
                 kbchrono
               </p>
@@ -50,7 +50,7 @@ const LuxuryFooter = () => {
           <p>{t("footer.rights")}</p>
           <div className="flex gap-6">
             <a
-              href="https://www.instagram.com/thekunbrands/"
+              href="https://www.instagram.com/chrono.kb/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors duration-300 tracking-[0.1em] uppercase"

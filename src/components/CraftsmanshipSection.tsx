@@ -7,8 +7,8 @@ const CraftsmanshipSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="craftsmanship" className="relative py-32" ref={ref}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section id="craftsmanship" className="relative py-20 sm:py-32" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image */}
           <div className="relative overflow-hidden reveal">
@@ -18,7 +18,7 @@ const CraftsmanshipSection = () => {
               loading="lazy"
               width={1920}
               height={1080}
-              className="w-full h-[500px] lg:h-[700px] object-cover"
+              className="w-full h-64 sm:h-[400px] lg:h-[700px] object-cover"
             />
             <div className="absolute inset-0 border border-primary/10" />
           </div>

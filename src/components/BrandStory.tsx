@@ -13,7 +13,7 @@ const BrandStory = () => {
   ];
 
   return (
-    <section id="story" className="py-32 px-6 lg:px-12 bg-card/50" ref={ref}>
+    <section id="story" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-12 bg-card/50" ref={ref}>
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-20">
           <p className="text-primary text-xs tracking-[0.4em] uppercase mb-4 reveal">

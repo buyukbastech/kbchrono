@@ -6,7 +6,7 @@ const ContactCTA = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="contact" className="py-32 px-6 lg:px-12" ref={ref}>
+    <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-12" ref={ref}>
       <div className="max-w-3xl mx-auto text-center">
         <p className="text-primary text-xs tracking-[0.4em] uppercase mb-4 reveal">
           {t("contact.subtitle")}

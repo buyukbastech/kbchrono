@@ -76,7 +76,14 @@ const resources = {
         message: "Hello! I would like to get information about kbchrono watches."
       },
       collectionGrid: {
-        title: "Masterpieces of Time"
+        title: "Masterpieces of Time",
+        filter: {
+          all: "All Collections",
+          ap: "Audemars Piguet",
+          rm: "Richard Mille",
+          pp: "Patek Philippe",
+          rolex: "Rolex"
+        }
       },
       notFound: {
         title: "404",
@@ -253,7 +260,14 @@ const resources = {
         message: "Merhaba! kbchrono saatleri hakkında bilgi almak istiyorum."
       },
       collectionGrid: {
-        title: "Zamanın Başyapıtları"
+        title: "Zamanın Başyapıtları",
+        filter: {
+          all: "Tüm Koleksiyonlar",
+          ap: "Audemars Piguet",
+          rm: "Richard Mille",
+          pp: "Patek Philippe",
+          rolex: "Rolex"
+        }
       },
       notFound: {
         title: "404",
@@ -430,7 +444,14 @@ const resources = {
         message: "مرحباً! أود الحصول على معلومات حول ساعات kbchrono."
       },
       collectionGrid: {
-        title: "روائع الزمن"
+        title: "روائع الزمن",
+        filter: {
+          all: "جميع المجموعات",
+          ap: "أوديمار بيغي",
+          rm: "ريتشارد ميل",
+          pp: "باتيك فيليب",
+          rolex: "رولكس"
+        }
       },
       notFound: {
         title: "404",

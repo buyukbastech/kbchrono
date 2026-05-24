@@ -20,7 +20,7 @@ const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 z-50 flex items-center justify-center w-16 h-16 bg-gradient-gold rounded-full shadow-gold hover:scale-110 transition-all duration-500 animate-in fade-in slide-in-from-bottom-8 group"
+      className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-gold rounded-full shadow-gold hover:scale-110 transition-all duration-500 animate-in fade-in slide-in-from-bottom-8 group"
       aria-label="Contact on WhatsApp"
     >
       {/* Animated rings for attention */}
