@@ -8,8 +8,35 @@ const resources = {
       nav: {
         collections: "Collections",
         craftsmanship: "Craftsmanship",
+        partnership: "Partnership",
         story: "Philosophy",
         contact: "Contact"
+      },
+      partnership: {
+        subtitle: "Our Engineering Partner",
+        title: "Crafted by Pyzerion",
+        description: "Every pixel, transition, and line of code in the Kbchrono digital experience has been meticulously designed and developed by Pyzerion.",
+        visitWebsite: "Visit Pyzerion Website",
+        tagline: "Architecting the Future of Business with AI",
+        services: {
+          title: "Pyzerion Core Expertise",
+          web: {
+            title: "High-Performance Web Design",
+            desc: "Breathtaking user interfaces, fluid animations, and robust, ultra-fast architectures designed for premium brands."
+          },
+          crm: {
+            title: "Custom CRM Solutions",
+            desc: "Tailored customer relationship management systems built to scale enterprise workflows and optimize sales processes."
+          },
+          ai: {
+            title: "AI Voice & Process Automation",
+            desc: "Intelligent voice assistants, predictive analytics, and next-generation automation that redefine operational efficiency."
+          }
+        },
+        projectStory: {
+          title: "The kbchrono Project",
+          desc: "Collaborating closely with kbchrono, Pyzerion designed and engineered this digital platform. Blending luxury aesthetics with high-performance modern web technologies (React, TypeScript, Vite, Tailwind CSS), they brought our vision of haute horlogerie to life in the digital world. The result is a seamless, stunning showcase of engineering and master craftsmanship."
+        }
       },
       hero: {
         subtitle: "Exclusive Timepieces",
@@ -192,8 +219,35 @@ const resources = {
       nav: {
         collections: "Koleksiyonlar",
         craftsmanship: "İşçilik",
+        partnership: "Partnership",
         story: "Felsefemiz",
         contact: "İletişim"
+      },
+      partnership: {
+        subtitle: "Mühendislik Ortağımız",
+        title: "Pyzerion Tarafından Tasarlandı",
+        description: "Kbchrono dijital deneyimindeki her bir piksel, geçiş ve kod satırı Pyzerion tarafından titizlikle tasarlanmış ve geliştirilmiştir.",
+        visitWebsite: "Pyzerion Web Sitesini Ziyaret Edin",
+        tagline: "Yapay Zeka ile İş Dünyasının Geleceğini İnşa Ediyoruz",
+        services: {
+          title: "Pyzerion Uzmanlık Alanları",
+          web: {
+            title: "Yüksek Performanslı Web Tasarımı",
+            desc: "Premium markalar için tasarlanmış nefes kesici kullanıcı arayüzleri, akıcı animasyonlar ve sağlam, ultra hızlı altyapılar."
+          },
+          crm: {
+            title: "Özel CRM Çözümleri",
+            desc: "Kurumsal iş akışlarını ölçeklendirmek ve satış süreçlerini optimize etmek için oluşturulmuş özel müşteri ilişkileri yönetim sistemleri."
+          },
+          ai: {
+            title: "Yapay Zeka ve Süreç Otomasyonu",
+            desc: "Operasyonel verimliliği yeniden tanımlayan akıllı sesli asistanlar, öngörücü analitikler ve yeni nesil otomasyonlar."
+          }
+        },
+        projectStory: {
+          title: "kbchrono Projesi",
+          desc: "kbchrono ile yakın iş birliği içinde çalışan Pyzerion, bu dijital platformu tasarladı ve geliştirdi. Lüks estetiği, yüksek performanslı modern web teknolojileri (React, TypeScript, Vite, Tailwind CSS) ile harmanlayarak yüksek saatçilik (haute horlogerie) vizyonumuzu dijital dünyaya taşıdılar. Sonuç, mühendislik ve usta işçiliğin kusursuz ve büyüleyici bir birleşimidir."
+        }
       },
       hero: {
         subtitle: "Özel Tasarım Saatler",
@@ -376,8 +430,35 @@ const resources = {
       nav: {
         collections: "المجموعات",
         craftsmanship: "الحرفية",
+        partnership: "الشراكة",
         story: "فلسفتنا",
         contact: "اتصل بنا"
+      },
+      partnership: {
+        subtitle: "شريكنا الهندسي",
+        title: "صُنع بواسطة بايزيريون",
+        description: "تم تصميم وتطوير كل بكسل وانتقال وخط برمجيات في تجربة Kbchrono الرقمية بدقة متناهية بواسطة بايزيريون.",
+        visitWebsite: "زيارة موقع بايزيريون",
+        tagline: "بناء مستقبل الأعمال باستخدام الذكاء الاصطناعي",
+        services: {
+          title: "خبرات بايزيريون الأساسية",
+          web: {
+            title: "تصميم مواقع عالية الأداء",
+            desc: "واجهات مستخدم تحبس الأنفاس، ورسوم متحركة سلسة، وبنى برمجية قوية وفائقة السرعة مصممة للعلامات التجارية الفاخرة."
+          },
+          crm: {
+            title: "حلول إدارة علاقات العملاء (CRM) المخصصة",
+            desc: "أنظمة مخصصة لإدارة علاقات العملاء مصممة لتوسيع نطاق تدفقات العمل في المؤسسات وتحسين عمليات البيع."
+          },
+          ai: {
+            title: "الذكاء الاصطناعي وأتمتة العمليات",
+            desc: "مساعدين صوتيين أذكياء، تحليلات تنبؤية، وأتمتة من الجيل التالي تعيد تعريف الكفاءة التشغيلية."
+          }
+        },
+        projectStory: {
+          title: "مشروع kbchrono",
+          desc: "بالتعاون الوثيق مع kbchrono، صممت بايزيريون هذه المنصة الرقمية وطورتها. ومن خلال دمج جماليات الفخامة مع تقنيات الويب الحديثة عالية الأداء (React و TypeScript و Vite و Tailwind CSS)، نجحوا في تجسيد رؤيتنا للساعات الفاخرة في العالم الرقمي. والنتيجة هي مزيج سلس ورائع بين الهندسة والبراعة الحرفية."
+        }
       },
       hero: {
         subtitle: "ساعات حصرية",

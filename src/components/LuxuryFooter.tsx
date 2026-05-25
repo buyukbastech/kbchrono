@@ -29,6 +29,7 @@ const LuxuryFooter = () => {
               {[
                 { label: t("nav.collections"), href: "/collections" },
                 { label: t("nav.craftsmanship"), href: "/#craftsmanship" },
+                { label: t("nav.partnership"), href: "/partnership" },
                 { label: t("nav.story"), href: "/#story" },
                 { label: t("footer.boutiques"), href: "#" },
               ].map((item) => (
@@ -47,7 +48,21 @@ const LuxuryFooter = () => {
         {/* Bottom */}
         <div className="luxury-line mb-8" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground text-xs">
-          <p>{t("footer.rights")}</p>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+            <p>{t("footer.rights")}</p>
+            <span className="hidden md:inline text-muted-foreground/30">|</span>
+            <p>
+              Created by{" "}
+              <a
+                href="https://www.pyzerion.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-300 font-medium"
+              >
+                Pyzerion
+              </a>
+            </p>
+          </div>
           <div className="flex gap-6">
             <a
               href="https://www.instagram.com/chrono.kb/"
