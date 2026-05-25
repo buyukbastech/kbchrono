@@ -165,7 +165,7 @@ const WatchDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
           {/* Image / Carousel */}
-          <div className="relative overflow-hidden bg-black aspect-square lg:aspect-auto lg:h-[80vh] sticky top-0 z-10">
+          <div className="relative overflow-hidden bg-black aspect-square lg:aspect-auto lg:h-[70vh] sticky top-0 z-10">
             {watch.images && watch.images.length > 0 ? (
               <div className="embla h-full w-full" ref={emblaRef} dir="ltr">
                 <div
@@ -180,7 +180,7 @@ const WatchDetail = () => {
                       <img
                         src={img}
                         alt={`${watch.name} - ${idx}`}
-                        className="w-full h-full object-contain p-2 md:p-4"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   ))}
@@ -209,7 +209,7 @@ const WatchDetail = () => {
                 alt={watch.name}
                 width={800}
                 height={1000}
-                className="w-full h-full object-contain p-2 md:p-4 animate-fade-in"
+                className="w-full h-full object-cover animate-fade-in"
               />
             )}
           </div>
