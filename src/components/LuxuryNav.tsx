@@ -169,19 +169,23 @@ const LuxuryNav = () => {
         {/* Close Button */}
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute top-5 right-5 text-foreground p-2"
+          className="absolute top-5 right-5 text-foreground p-2 z-50 hover:text-primary transition-colors cursor-pointer"
           aria-label="Close menu"
         >
           <X size={26} />
         </button>
 
         {/* Logo in overlay */}
-        <div className="absolute top-4 left-4 flex items-center gap-2">
+        <Link
+          to="/"
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-4 left-4 flex items-center gap-2 z-50 cursor-pointer"
+        >
           <img src="/kb-logo.png" alt="kbchrono" className="h-14 w-auto" />
           <span className="text-gradient-gold text-base font-bold tracking-[0.3em] uppercase">
             kbchrono
           </span>
-        </div>
+        </Link>
 
         {/* Nav Links — staggered slide-in */}
         <div

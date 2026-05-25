@@ -219,7 +219,7 @@ const resources = {
       nav: {
         collections: "Koleksiyonlar",
         craftsmanship: "İşçilik",
-        partnership: "Partnership",
+        partnership: "İş Ortaklığı",
         story: "Felsefemiz",
         contact: "İletişim"
       },
