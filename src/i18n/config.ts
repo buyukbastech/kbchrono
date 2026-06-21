@@ -140,6 +140,12 @@ const resources = {
           crystal: "Crystal"
         }
       },
+      features: {
+        fastDelivery: "Fast Delivery",
+        freeShipping: "Free Shipping",
+        cashOnDelivery: "Cash On Delivery",
+        codSubtext: "(Only in Dubai)"
+      },
       watches: {
         "kunkor-tourbillon": {
           name: "kbchrono Tourbillon",
@@ -356,6 +362,12 @@ const resources = {
           crystal: "Cam"
         }
       },
+      features: {
+        fastDelivery: "Hızlı Teslimat",
+        freeShipping: "Ücretsiz Kargo",
+        cashOnDelivery: "Kapıda Ödeme",
+        codSubtext: "(Sadece Dubai'de)"
+      },
       watches: {
         "kunkor-tourbillon": {
           name: "kbchrono Tourbillon",
@@ -571,6 +583,12 @@ const resources = {
           power_reserve: "احتياطي الطاقة",
           crystal: "الكريستال"
         }
+      },
+      features: {
+        fastDelivery: "توصيل سريع",
+        freeShipping: "شحن مجاني",
+        cashOnDelivery: "الدفع عند الاستلام",
+        codSubtext: "(فقط في دبي)"
       },
       watches: {
         "kunkor-tourbillon": {

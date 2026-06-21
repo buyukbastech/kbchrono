@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import CollectionGrid from "@/components/CollectionGrid";
 import CraftsmanshipSection from "@/components/CraftsmanshipSection";
 import BrandStory from "@/components/BrandStory";
+import FeaturesGrid from "@/components/FeaturesGrid";
 import LuxuryFooter from "@/components/LuxuryFooter";
 
 const Index = () => {
@@ -12,6 +13,7 @@ const Index = () => {
       <HeroSection />
       <CraftsmanshipSection />
       <BrandStory />
+      <FeaturesGrid />
       <LuxuryFooter />
     </div>
   );
