@@ -87,12 +87,17 @@ const resources = {
         book: "Book a Consultation",
         discover: "Discover More",
         phoneLabel: "Phone",
-        emailLabel: "Email Address"
+        emailLabel: "Email Address",
+        addressDubaiLabel: "Dubai Boutique",
+        addressIstanbulLabel: "Istanbul Boutique",
+        addressDubai: "Dubai, Business Bay, Nobles Tower",
+        addressIstanbul: "İstanbul, Bebek, Vezirköşkü sokak"
       },
       footer: {
         description: "Exclusive haute horlogerie. Each timepiece is a masterwork of precision engineering and artisanal craftsmanship.",
         explore: "Explore",
         boutiques: "Boutiques",
+        offices: "Offices",
         newsletter: "Newsletter",
         newsletterDesc: "Receive exclusive updates from the world of kbchrono.",
         emailPlaceholder: "Your email",
@@ -298,12 +303,17 @@ const resources = {
         book: "Görüşme Ayarla",
         discover: "Daha Fazlasını Keşfet",
         phoneLabel: "Telefon",
-        emailLabel: "E-posta Adresi"
+        emailLabel: "E-posta Adresi",
+        addressDubaiLabel: "Dubai Butik",
+        addressIstanbulLabel: "İstanbul Butik",
+        addressDubai: "Dubai, Business Bay, Nobles Tower",
+        addressIstanbul: "İstanbul, Bebek, Vezirköşkü sokak"
       },
       footer: {
         description: "Özel tasarım lüks saatler. Her saat, ince işçilik ve zarafetin bir başyapıtıdır.",
         explore: "Keşfet",
         boutiques: "Butikler",
+        offices: "Ofislerimiz",
         newsletter: "Bülten",
         newsletterDesc: "kbchrono dünyasından özel güncellemeler alın.",
         emailPlaceholder: "E-postanız",
@@ -509,12 +519,17 @@ const resources = {
         book: "حجز استشارة",
         discover: "اكتشف المزيد",
         phoneLabel: "الهاتف",
-        emailLabel: "البريد الإلكتروني"
+        emailLabel: "البريد الإلكتروني",
+        addressDubaiLabel: "بوتيك دبي",
+        addressIstanbulLabel: "بوتيك اسطنبول",
+        addressDubai: "Dubai, Business Bay, Nobles Tower",
+        addressIstanbul: "İstanbul, Bebek, Vezirköşkü sokak"
       },
       footer: {
         description: "صناعة الساعات الراقية والحصرية. كل ساعة هي عمل فني من الهندسة الدقيقة والحرفية اليدوية.",
         explore: "استكشف",
         boutiques: "المتاجر",
+        offices: "مكاتبنا",
         newsletter: "النشرة الإخبارية",
         newsletterDesc: "احصل على تحديثات حصرية من عالم kbchrono.",
         emailPlaceholder: "بريدك الإلكتروني",

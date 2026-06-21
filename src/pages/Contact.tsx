@@ -25,6 +25,18 @@ const Contact = () => {
       label: t("contact.emailLabel"),
       value: "info@kbchrono.com",
       href: "mailto:info@kbchrono.com"
+    },
+    {
+      icon: <MapPin className="w-5 h-5 text-primary" />,
+      label: t("contact.addressDubaiLabel"),
+      value: t("contact.addressDubai"),
+      href: "https://maps.google.com/?q=Nobles+Tower+Business+Bay+Dubai"
+    },
+    {
+      icon: <MapPin className="w-5 h-5 text-primary" />,
+      label: t("contact.addressIstanbulLabel"),
+      value: t("contact.addressIstanbul"),
+      href: "https://maps.google.com/?q=Vezirköşkü+sokak+Bebek+İstanbul"
     }
   ];
 
