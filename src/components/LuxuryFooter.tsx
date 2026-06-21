@@ -46,7 +46,6 @@ const LuxuryFooter = () => {
               {[
                 { label: t("nav.collections"), href: "/collections" },
                 { label: t("nav.craftsmanship"), href: "/#craftsmanship" },
-                { label: t("nav.partnership"), href: "/partnership" },
                 { label: t("nav.story"), href: "/#story" },
                 { label: t("footer.boutiques"), href: "#" },
               ].map((item) => (

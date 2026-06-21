@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import WatchDetail from "./pages/WatchDetail.tsx";
 import Collections from "./pages/Collections.tsx";
-import Partnership from "./pages/Partnership.tsx";
 import Contact from "./pages/Contact.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WhatsAppButton from "./components/WhatsAppButton.tsx";
@@ -48,7 +47,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/collections" element={<Collections />} />
-          <Route path="/partnership" element={<Partnership />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/watch/:id" element={<WatchDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
