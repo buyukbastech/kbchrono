@@ -8,17 +8,17 @@ const FeaturesGrid = () => {
 
   const features = [
     {
+      icon: <Banknote className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md" strokeWidth={1} />,
+      title: t("features.cashOnDelivery", "Cash On Delivery"),
+      subtext: t("features.codSubtext", "(Only in Dubai)")
+    },
+    {
       icon: <Rocket className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md" strokeWidth={1} />,
       title: t("features.fastDelivery", "Fast Delivery"),
     },
     {
       icon: <Truck className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md" strokeWidth={1} />,
       title: t("features.freeShipping", "Free Shipping"),
-    },
-    {
-      icon: <Banknote className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md" strokeWidth={1} />,
-      title: t("features.cashOnDelivery", "Cash On Delivery"),
-      subtext: t("features.codSubtext", "(Only in Dubai)")
     }
   ];
 

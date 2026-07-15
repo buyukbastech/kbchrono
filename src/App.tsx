@@ -7,6 +7,10 @@ import Index from "./pages/Index.tsx";
 import WatchDetail from "./pages/WatchDetail.tsx";
 import Collections from "./pages/Collections.tsx";
 import Contact from "./pages/Contact.tsx";
+import RareBags from "./pages/RareBags.tsx";
+import Jewellery from "./pages/Jewellery.tsx";
+import Personalization from "./pages/Personalization.tsx";
+import OldMoney from "./pages/OldMoney.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WhatsAppButton from "./components/WhatsAppButton.tsx";
 import { useEffect } from "react";
@@ -49,6 +53,10 @@ const App = () => {
           <Route path="/collections" element={<Collections />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/watch/:id" element={<WatchDetail />} />
+          <Route path="/rare-bags" element={<RareBags />} />
+          <Route path="/jewellery" element={<Jewellery />} />
+          <Route path="/personalization" element={<Personalization />} />
+          <Route path="/old-money" element={<OldMoney />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

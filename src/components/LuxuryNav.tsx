@@ -50,8 +50,10 @@ const LuxuryNav = () => {
 
   const navItems = [
     { label: t("nav.collections"), href: "/collections" },
-    { label: t("nav.craftsmanship"), href: "/#craftsmanship" },
-    { label: t("nav.story"), href: "/#story" },
+    { label: "Rare Bags", href: "/rare-bags" },
+    { label: "Jewellery", href: "/jewellery" },
+    { label: "Personalization", href: "/personalization" },
+    { label: "Old Money", href: "/old-money" },
     { label: t("nav.contact"), href: "/contact" },
   ];
 
@@ -65,7 +67,7 @@ const LuxuryNav = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 sm:h-20">
 
             {/* Logo */}
@@ -81,12 +83,12 @@ const LuxuryNav = () => {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8 lg:gap-10">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}
-                  className="text-muted-foreground hover:text-foreground text-xs tracking-[0.2em] uppercase transition-colors duration-300"
+                  className="text-muted-foreground hover:text-foreground text-xs tracking-[0.2em] uppercase transition-colors duration-300 whitespace-nowrap"
                 >
                   {item.label}
                 </Link>

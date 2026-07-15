@@ -27,11 +27,17 @@ const LuxuryFooter = () => {
             </p>
             <div className="space-y-4">
               <div>
-                <p className="text-foreground text-sm font-medium mb-1">{t("contact.addressDubaiLabel")}</p>
+                <div className="flex items-center gap-2 mb-1">
+                  <img src="https://flagcdn.com/w40/ae.png" alt="UAE Flag" className="w-5 h-auto object-cover rounded-sm" />
+                  <p className="text-foreground text-sm font-medium">{t("contact.addressDubaiLabel")}</p>
+                </div>
                 <p className="text-muted-foreground text-sm">{t("contact.addressDubai")}</p>
               </div>
               <div>
-                <p className="text-foreground text-sm font-medium mb-1">{t("contact.addressIstanbulLabel")}</p>
+                <div className="flex items-center gap-2 mb-1">
+                  <img src="https://flagcdn.com/w40/tr.png" alt="Turkey Flag" className="w-5 h-auto object-cover rounded-sm" />
+                  <p className="text-foreground text-sm font-medium">{t("contact.addressIstanbulLabel")}</p>
+                </div>
                 <p className="text-muted-foreground text-sm">{t("contact.addressIstanbul")}</p>
               </div>
             </div>
