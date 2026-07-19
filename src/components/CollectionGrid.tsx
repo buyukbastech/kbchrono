@@ -185,10 +185,13 @@ function WatchCard({ watch }: { watch: any }) {
 }
 
 // ── Main Grid ─────────────────────────────────────────────────────────────────
-export default function CollectionGrid() {
+export default function CollectionGrid({ fixedCollection }: { fixedCollection?: string } = {}) {
   const [allWatches, setAllWatches]         = useState<any[]>(localWatches);
   const [isLoading, setIsLoading]           = useState(true);
-  const [filters, setFilters]               = useState<FilterState>(FILTER_DEFAULTS);
+  const [filters, setFilters]               = useState<FilterState>({
+    ...FILTER_DEFAULTS,
+    collection: fixedCollection || "All",
+  });
   const [openKey, setOpenKey]               = useState<FilterKey | null>(null);
   const barRef                              = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
@@ -289,9 +292,12 @@ export default function CollectionGrid() {
 
   const getOptions = (k: FilterKey) => k === "collection" ? collectionOptions : FALLBACK_OPTIONS[k];
   const setFilter  = useCallback((k: FilterKey, v: string) => setFilters(p => ({ ...p, [k]: v })), []);
-  const reset      = useCallback(() => { setFilters(FILTER_DEFAULTS); setOpenKey(null); }, []);
+  const reset      = useCallback(() => { 
+    setFilters({ ...FILTER_DEFAULTS, collection: fixedCollection || "All" }); 
+    setOpenKey(null); 
+  }, [fixedCollection]);
 
-  const activeCount = Object.values(filters).filter(v => v !== "All").length;
+  const activeCount = Object.values(filters).filter(v => v !== "All" && v !== fixedCollection).length;
 
   // Fetch Supabase
   useEffect(() => {
@@ -407,7 +413,7 @@ export default function CollectionGrid() {
         <div ref={barRef} style={{ marginBottom:32, position:"relative" }}>
           <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:"clamp(16px,4vw,36px)", paddingBottom:8 }}>
 
-            {FILTER_KEYS.map(key => {
+            {(fixedCollection ? FILTER_KEYS.filter(k => k !== "collection") : FILTER_KEYS).map(key => {
               const isOpen   = openKey === key;
               const isActive = filters[key] !== "All";
               const opts     = getOptions(key);
