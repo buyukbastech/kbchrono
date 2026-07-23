@@ -1,10 +1,39 @@
 import { Rocket, Truck, Banknote } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useReveal } from "@/hooks/useReveal";
+import uaeFlag from "@/assets/Flag_of_the_United_Arab_Emirates (1).png";
+import trFlag from "@/assets/images.png";
 
 const FeaturesGrid = () => {
   const { t } = useTranslation();
   const revealRef = useReveal();
+
+  const renderSubtext = (text: string) => {
+    const parts = text.split(/(🇦🇪|🇹🇷)/g);
+    return parts.map((part, i) => {
+      if (part === "🇦🇪") {
+        return (
+          <img 
+            key={i} 
+            src={uaeFlag} 
+            alt="UAE" 
+            className="inline-block h-3 w-5 mx-1.5 align-middle rounded-sm object-cover border border-white/10" 
+          />
+        );
+      }
+      if (part === "🇹🇷") {
+        return (
+          <img 
+            key={i} 
+            src={trFlag} 
+            alt="TR" 
+            className="inline-block h-3 w-5 mx-1.5 align-middle rounded-sm object-cover border border-white/10" 
+          />
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
+  };
 
   const features = [
     {
@@ -36,8 +65,8 @@ const FeaturesGrid = () => {
                 {feature.title}
               </h3>
               {feature.subtext && (
-                <p className="text-muted-foreground text-sm mt-3 font-light tracking-wide text-center font-sans">
-                  {feature.subtext}
+                <p className="text-muted-foreground text-sm mt-3 font-light tracking-wide text-center font-sans flex items-center justify-center flex-wrap">
+                  {renderSubtext(feature.subtext)}
                 </p>
               )}
             </div>
