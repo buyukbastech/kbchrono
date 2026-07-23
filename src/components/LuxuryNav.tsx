@@ -137,7 +137,7 @@ const LuxuryNav = () => {
             </div>
 
             {/* Mobile Right Controls */}
-            <div className="flex items-center gap-3 md:hidden">
+            <div className="flex items-center gap-3 lg:hidden">
               <a
                 href="https://www.instagram.com/chrono.kb/"
                 target="_blank"
@@ -162,7 +162,7 @@ const LuxuryNav = () => {
 
       {/* ── Full-Screen Mobile Overlay ── */}
       <div
-        className={`fixed inset-0 z-[100] md:hidden transition-opacity duration-500 ${
+        className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-500 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         style={{ background: "#000000" }}

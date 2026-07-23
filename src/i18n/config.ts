@@ -144,7 +144,7 @@ const resources = {
         fastDelivery: "Fast Delivery",
         freeShipping: "Free Shipping",
         cashOnDelivery: "Cash On Delivery",
-        codSubtext: "(Only in Dubai)"
+        codSubtext: "(Only in 🇦🇪 Dubai 🇹🇷 Istanbul)"
       },
       watches: {
         "kunkor-tourbillon": {
@@ -366,7 +366,7 @@ const resources = {
         fastDelivery: "Hızlı Teslimat",
         freeShipping: "Ücretsiz Kargo",
         cashOnDelivery: "Kapıda Ödeme",
-        codSubtext: "(Sadece Dubai'de)"
+        codSubtext: "(Sadece 🇦🇪 Dubai ve 🇹🇷 İstanbul'da)"
       },
       watches: {
         "kunkor-tourbillon": {
@@ -588,7 +588,7 @@ const resources = {
         fastDelivery: "توصيل سريع",
         freeShipping: "شحن مجاني",
         cashOnDelivery: "الدفع عند الاستلام",
-        codSubtext: "(فقط في دبي)"
+        codSubtext: "(فقط في 🇦🇪 دبي 🇹🇷 إسطنبول)"
       },
       watches: {
         "kunkor-tourbillon": {
