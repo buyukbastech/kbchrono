@@ -138,8 +138,10 @@ export default function CollectionsHeader() {
 
   const navItems = [
     { label: t("nav.collections"), href: "/collections" },
-    { label: t("nav.craftsmanship"), href: "/#craftsmanship" },
-    { label: t("nav.story"), href: "/#story" },
+    { label: "Rare Bags", href: "/rare-bags" },
+    { label: "Jewellery", href: "/jewellery" },
+    { label: "Personalization", href: "/personalization" },
+    { label: "Old Money", href: "/old-money" },
     { label: t("nav.contact"), href: "/contact" },
   ];
 
@@ -286,7 +288,7 @@ export default function CollectionsHeader() {
         </a>
 
         <div
-          className={`flex flex-col justify-center h-full px-10 sm:px-16 gap-8 transition-all duration-500 ${
+          className={`flex flex-col justify-start sm:justify-center h-full px-10 sm:px-16 gap-8 transition-all duration-500 overflow-y-auto pt-28 pb-12 ${
             menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
           }`}
           style={{ transitionDelay: menuOpen ? "0.1s" : "0s" }}

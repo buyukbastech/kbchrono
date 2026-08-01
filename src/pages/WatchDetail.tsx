@@ -165,7 +165,7 @@ const WatchDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
           {/* Image / Carousel */}
-          <div className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl sticky top-0 z-10">
+          <div className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl lg:sticky lg:top-24 relative z-10">
             {watch.images && watch.images.length > 0 ? (
               <div className="embla h-full w-full" ref={emblaRef} dir="ltr">
                 <div

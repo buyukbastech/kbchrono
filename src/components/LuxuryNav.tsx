@@ -190,7 +190,7 @@ const LuxuryNav = () => {
 
         {/* Nav Links — staggered slide-in */}
         <div
-          className={`flex flex-col justify-center h-full px-10 gap-9 transition-all duration-500 ${
+          className={`flex flex-col justify-start sm:justify-center h-full px-10 gap-9 transition-all duration-500 overflow-y-auto pt-28 pb-12 ${
             menuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
           }`}
           style={{ transitionDelay: menuOpen ? "0.08s" : "0s" }}

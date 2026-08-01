@@ -290,7 +290,7 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
     return FALLBACK_OPTIONS.collection;
   }, []);
 
-  const getOptions = (k: FilterKey) => k === "collection" ? collectionOptions : FALLBACK_OPTIONS[k];
+  const getOptions = (k: FilterKey) => dynamicOptions[k];
   const setFilter  = useCallback((k: FilterKey, v: string) => setFilters(p => ({ ...p, [k]: v })), []);
   const reset      = useCallback(() => { 
     setFilters({ ...FILTER_DEFAULTS, collection: fixedCollection || "All" }); 
@@ -332,45 +332,122 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
     return () => { supabase.removeChannel(ch); };
   }, []);
 
-  // Filter
-  const filtered = useMemo(() => allWatches.filter(w => {
-    if (filters.collection !== "All" && String(w.collection||"").toLowerCase().trim() !== filters.collection.toLowerCase().trim()) return false;
-    if (filters.model !== "All") {
-      const selModel = filters.model.toLowerCase().trim();
-      const wName = String(w.name || "").toLowerCase().trim();
-      const wCol = String(w.collection || "").toLowerCase().trim();
-      const wModel = String(w.model || "").toLowerCase().trim();
-      if (wModel !== selModel && !wName.includes(selModel) && !wCol.includes(selModel)) return false;
-    }
-    const hay = [w.name, w.collection, w.id, w.tagline].join(" ").toLowerCase();
-    
-    const conceptMatch  = filters.concept  === "All" || String(w.concept || "").toLowerCase().trim() === filters.concept.toLowerCase().trim() || hay.includes(filters.concept.toLowerCase());
-    
-    let rangeMatch = false;
-    if (filters.range === "All") {
-      rangeMatch = true;
-    } else {
-      const val = filters.range.toLowerCase().trim();
-      const wVal = String(w.range || "").toLowerCase().trim();
-      
-      const isErkek = val === "erkek" || val === "men" || val === "man";
-      const isKadin = val === "kadın" || val === "women" || val === "woman";
-      
-      const wIsErkek = wVal === "erkek" || wVal === "men" || wVal === "man";
-      const wIsKadin = wVal === "kadın" || wVal === "women" || wVal === "woman";
-      
-      if (isErkek && wIsErkek) rangeMatch = true;
-      else if (isKadin && wIsKadin) rangeMatch = true;
-      else if (val === "unisex" && wVal === "unisex") rangeMatch = true;
-      else rangeMatch = hay.includes(val);
-    }
+  // 1. Get base products for the current page category
+  const baseProducts = useMemo(() => {
+    return allWatches.filter(w => {
+      if (fixedCollection) {
+        return String(w.collection || "").toLowerCase().trim() === fixedCollection.toLowerCase().trim();
+      } else {
+        const colLower = String(w.collection || "").toLowerCase().trim();
+        return colLower !== "rare bags" && 
+               colLower !== "jewellery" && 
+               colLower !== "personalization" && 
+               colLower !== "old money";
+      }
+    });
+  }, [allWatches, fixedCollection]);
 
-    const typeMatch     = filters.type     === "All" || String(w.type || "").toLowerCase().trim() === filters.type.toLowerCase().trim() || hay.includes(filters.type.toLowerCase());
-    const materialMatch = filters.material === "All" || String(w.material || "").toLowerCase().trim() === filters.material.toLowerCase().trim() || hay.includes(filters.material.toLowerCase());
-    const colorMatch    = filters.color    === "All" || String(w.color || "").toLowerCase().trim() === filters.color.toLowerCase().trim() || hay.includes(filters.color.toLowerCase());
+  // 2. Filter the base products according to user selected filters
+  const filtered = useMemo(() => {
+    return baseProducts.filter(w => {
+      if (filters.collection !== "All" && String(w.collection||"").toLowerCase().trim() !== filters.collection.toLowerCase().trim()) return false;
+      if (filters.model !== "All") {
+        const selModel = filters.model.toLowerCase().trim();
+        const wName = String(w.name || "").toLowerCase().trim();
+        const wCol = String(w.collection || "").toLowerCase().trim();
+        const wModel = String(w.model || "").toLowerCase().trim();
+        if (wModel !== selModel && !wName.includes(selModel) && !wCol.includes(selModel)) return false;
+      }
+      const hay = [w.name, w.collection, w.id, w.tagline].join(" ").toLowerCase();
+      
+      const conceptMatch  = filters.concept  === "All" || String(w.concept || "").toLowerCase().trim() === filters.concept.toLowerCase().trim() || hay.includes(filters.concept.toLowerCase());
+      
+      let rangeMatch = false;
+      if (filters.range === "All") {
+        rangeMatch = true;
+      } else {
+        const val = filters.range.toLowerCase().trim();
+        const wVal = String(w.range || "").toLowerCase().trim();
+        
+        const isErkek = val === "erkek" || val === "men" || val === "man";
+        const isKadin = val === "kadın" || val === "women" || val === "woman";
+        
+        const wIsErkek = wVal === "erkek" || wVal === "men" || wVal === "man";
+        const wIsKadin = wVal === "kadın" || wVal === "women" || wVal === "woman";
+        
+        if (isErkek && wIsErkek) rangeMatch = true;
+        else if (isKadin && wIsKadin) rangeMatch = true;
+        else if (val === "unisex" && wVal === "unisex") rangeMatch = true;
+        else rangeMatch = hay.includes(val);
+      }
 
-    return conceptMatch && rangeMatch && typeMatch && materialMatch && colorMatch;
-  }), [allWatches, filters]);
+      const typeMatch     = filters.type     === "All" || String(w.type || "").toLowerCase().trim() === filters.type.toLowerCase().trim() || hay.includes(filters.type.toLowerCase());
+      const materialMatch = filters.material === "All" || String(w.material || "").toLowerCase().trim() === filters.material.toLowerCase().trim() || hay.includes(filters.material.toLowerCase());
+      const colorMatch    = filters.color    === "All" || String(w.color || "").toLowerCase().trim() === filters.color.toLowerCase().trim() || hay.includes(filters.color.toLowerCase());
+
+      return conceptMatch && rangeMatch && typeMatch && materialMatch && colorMatch;
+    });
+  }, [baseProducts, filters]);
+
+  // 3. Extract dynamic options present in the base products
+  const dynamicOptions = useMemo(() => {
+    const opts: Record<FilterKey, string[]> = {
+      collection: ["All"],
+      model: ["All"],
+      concept: ["All"],
+      range: ["All"],
+      type: ["All"],
+      material: ["All"],
+      color: ["All"],
+    };
+
+    baseProducts.forEach(w => {
+      if (w.collection) {
+        const val = String(w.collection).trim();
+        if (val && !opts.collection.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.collection.push(val);
+        }
+      }
+      if (w.model) {
+        const val = String(w.model).trim();
+        if (val && !opts.model.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.model.push(val);
+        }
+      }
+      if (w.concept) {
+        const val = String(w.concept).trim();
+        if (val && !opts.concept.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.concept.push(val);
+        }
+      }
+      if (w.range) {
+        const val = String(w.range).trim();
+        if (val && !opts.range.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.range.push(val);
+        }
+      }
+      if (w.type) {
+        const val = String(w.type).trim();
+        if (val && !opts.type.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.type.push(val);
+        }
+      }
+      if (w.material) {
+        const val = String(w.material).trim();
+        if (val && !opts.material.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.material.push(val);
+        }
+      }
+      if (w.color) {
+        const val = String(w.color).trim();
+        if (val && !opts.color.some(o => o.toLowerCase() === val.toLowerCase())) {
+          opts.color.push(val);
+        }
+      }
+    });
+
+    return opts;
+  }, [baseProducts]);
 
   const ref = useReveal([filtered]);
   const isTr = i18n.language === "tr";
@@ -410,13 +487,22 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
         </div>
 
         {/* ── Filter bar — always visible ───────────────────────────────────── */}
-        <div ref={barRef} style={{ marginBottom:32, position:"relative" }}>
-          <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:"clamp(16px,4vw,36px)", paddingBottom:8 }}>
+        <div ref={barRef} style={{ marginBottom:32, position:"relative", width:"100%" }}>
+          <div 
+            style={{ 
+              display:"flex", 
+              alignItems:"center", 
+              flexWrap:"wrap", 
+              gap:"clamp(16px,4vw,36px)", 
+              paddingBottom:8 
+            }} 
+          >
 
             {(fixedCollection ? FILTER_KEYS.filter(k => k !== "collection") : FILTER_KEYS).map(key => {
+              const opts     = getOptions(key);
+              if (opts.length <= 1) return null; // Skip filter if no choices exist besides "All"
               const isOpen   = openKey === key;
               const isActive = filters[key] !== "All";
-              const opts     = getOptions(key);
 
               return (
                 <div key={key} style={{ position:"relative", flexShrink:0 }}>

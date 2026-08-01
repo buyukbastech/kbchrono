@@ -17,8 +17,8 @@ const Contact = () => {
     {
       icon: <Phone className="w-5 h-5 text-primary" />,
       label: t("contact.phoneLabel"),
-      value: "+90 531 697 72 25",
-      href: "tel:+905316977225"
+      value: "+90 530 604 47 63",
+      href: "tel:+905306044763"
     },
     {
       icon: <Mail className="w-5 h-5 text-primary" />,
