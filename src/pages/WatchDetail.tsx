@@ -81,6 +81,27 @@ const WatchDetail = () => {
     getWatch();
   }, [id]);
 
+  useEffect(() => {
+    if (watch) {
+      const dataLayer = (window as any).dataLayer || [];
+      dataLayer.push({
+        ecommerce: {
+          detail: {
+            products: [
+              {
+                id: watch.id || watch.slug || id,
+                name: watch.name,
+                category: watch.collection,
+                price: watch.price
+              }
+            ]
+          }
+        }
+      });
+      (window as any).dataLayer = dataLayer;
+    }
+  }, [watch, id]);
+
   // ── Auto-translate all text content ──────────────────────────────────────
   // Build translatable content object from watch data (always from Turkish source)
   const translatableContent = watch

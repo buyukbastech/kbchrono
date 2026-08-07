@@ -35,6 +35,18 @@ const ScrollToHash = () => {
   return null;
 };
 
+const YandexMetrikaTracker = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).ym) {
+      (window as any).ym(111394495, "hit", pathname);
+    }
+  }, [pathname]);
+
+  return null;
+};
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -48,6 +60,7 @@ const App = () => {
       <WhatsAppButton />
       <BrowserRouter>
         <ScrollToHash />
+        <YandexMetrikaTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/collections" element={<Collections />} />

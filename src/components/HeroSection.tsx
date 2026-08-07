@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import vid1 from "@/assets/vecteezy_golden-mechanical-skeleton-pocket-watch-hands-moving-fast-to_77651467.mp4";
@@ -36,17 +36,17 @@ const HeroSection = () => {
   });
 
   useEffect(() => {
-    const vids = videoRefs.current as HTMLVideoElement[];
+    const vids = videoRefs.current.filter((v): v is HTMLVideoElement => v !== null);
 
-    // --- Initial state: only video[0] visible, rest hidden ---
+    // Initial state: play only video 0, pause all others
     vids.forEach((v, i) => {
-      // Remove any lingering transition so initial opacity is instant
       v.style.transition = "none";
       v.style.opacity = i === 0 ? "1" : "0";
-      // All videos play continuously in background (muted) from the start.
-      // This means by the time we crossfade to one it has been playing for a while
-      // and the browser has it fully decoded — zero decode stutter.
-      v.play().catch(() => {});
+      if (i === 0) {
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
     });
 
     const doSwap = () => {
@@ -56,15 +56,36 @@ const HeroSection = () => {
       const current = vids[currentIdx];
       const next = vids[nextIdx];
 
-      // Pure CSS opacity crossfade on the GPU compositing layer.
-      // No src change, no load, no React state update — nothing to cause a stutter.
-      const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
-      current.style.transition = transition;
-      next.style.transition = transition;
-      current.style.opacity = "0";
-      next.style.opacity = "1";
+      if (!current || !next) return;
+
+      // 1. Pre-warm: Start playing the next video 500ms before we crossfade it in
+      next.play().then(() => {
+        // 2. Crossfade: Transition opacity
+        const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
+        current.style.transition = transition;
+        next.style.transition = transition;
+        current.style.opacity = "0";
+        next.style.opacity = "1";
+
+        // 3. Cleanup: Pause the old video after the crossfade transition finishes
+        setTimeout(() => {
+          // Verify we haven't swapped again in the meantime
+          if (ctx.current.currentIdx === nextIdx) {
+            current.pause();
+          }
+        }, FADE_DURATION);
+      }).catch((err) => {
+        console.warn("Failed to pre-play video:", err);
+        // Fallback: swap anyway
+        const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
+        current.style.transition = transition;
+        next.style.transition = transition;
+        current.style.opacity = "0";
+        next.style.opacity = "1";
+      });
 
       ctx.current.currentIdx = nextIdx;
+      // Schedule the next swap
       ctx.current.timer = setTimeout(doSwap, PLAY_DURATION);
     };
 
