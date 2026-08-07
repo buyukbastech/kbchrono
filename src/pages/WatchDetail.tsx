@@ -193,7 +193,7 @@ const WatchDetail = () => {
                   className="embla__container h-full w-full flex"
                   style={{ direction: "ltr" }}
                 >
-                  {watch.images.map((img: string, idx: number) => (
+                  {(watch.images.length > 1 ? watch.images.slice(1) : watch.images).map((img: string, idx: number) => (
                     <div
                       className="embla__slide flex-[0_0_100%] h-full min-w-0"
                       key={idx}
