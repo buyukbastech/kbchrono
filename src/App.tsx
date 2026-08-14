@@ -13,7 +13,7 @@ import Personalization from "./pages/Personalization.tsx";
 import OldMoney from "./pages/OldMoney.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WhatsAppButton from "./components/WhatsAppButton.tsx";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useGeoLanguage } from "./hooks/useGeoLanguage";
 
@@ -37,10 +37,18 @@ const ScrollToHash = () => {
 
 const YandexMetrikaTracker = () => {
   const { pathname } = useLocation();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return; // İlk yükleme index.html'deki hit() tarafından zaten takip ediliyor
+    }
     if (typeof window !== "undefined" && (window as any).ym) {
-      (window as any).ym(111394495, "hit", pathname);
+      (window as any).ym(111394495, "hit", window.location.href, {
+        referrer: document.referrer,
+        title: document.title,
+      });
     }
   }, [pathname]);
 

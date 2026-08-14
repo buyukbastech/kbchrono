@@ -32,8 +32,12 @@
             trackLinks:true,
             accurateTrackBounce:true,
             webvisor:true,
-            ecommerce:"dataLayer"
+            ecommerce:"dataLayer",
+            ssr:true,
+            referrer:document.referrer,
+            url:location.href
        });
+       ym(111394495, "hit", location.href, {referrer:document.referrer});
     </script>
     <!-- /Yandex.Metrika counter -->
   </head>
