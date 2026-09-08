@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { X, MapPin, Truck, Banknote, Sparkles, Building2 } from "lucide-react";
+import { X, ShieldCheck, Clock, Banknote, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export const StoreInfoPopup = () => {
@@ -8,17 +8,16 @@ export const StoreInfoPopup = () => {
   const location = useLocation();
   const { t } = useTranslation();
 
-  // Trigger popup when navigating to any page / route change
+  // Open modal on route change / page navigation
   useEffect(() => {
-    // Small delay so smooth page transition occurs first
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 300);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [location.pathname, location.search]);
 
-  // Keyboard accessibility (Escape key closes popup)
+  // Keyboard accessibility
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -35,110 +34,122 @@ export const StoreInfoPopup = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300"
+      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in duration-500"
       onClick={() => setIsOpen(false)}
       role="dialog"
       aria-modal="true"
       aria-labelledby="store-popup-title"
     >
-      {/* Modal Container */}
+      {/* Luxury Modal Container */}
       <div
-        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-zinc-950 border border-amber-500/30 p-6 sm:p-8 shadow-[0_0_50px_rgba(212,175,55,0.2)] animate-in zoom-in-95 duration-300"
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-background/95 border border-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Gold Gradient Line */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
+        {/* Subtle Gold Accent Line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-gold" />
 
-        {/* Close Button ('X') - Top Right */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900/80 text-amber-400 hover:text-amber-300 hover:bg-zinc-800 border border-amber-500/20 transition-all duration-300 group cursor-pointer"
-          aria-label={t("storePopup.close")}
-        >
-          <X size={20} className="transition-transform duration-300 group-hover:rotate-90" />
-        </button>
+        {/* Header: Logo & Close */}
+        <div className="flex items-center justify-between mb-6 pt-1">
+          <div className="flex items-center gap-3">
+            <img src="/kb-logo.png" alt="kbchrono" className="h-9 w-auto" />
+            <div className="flex flex-col">
+              <span className="text-gradient-gold text-xs font-bold tracking-[0.3em] uppercase">
+                kbchrono
+              </span>
+              <span className="text-[10px] text-muted-foreground tracking-[0.2em] uppercase">
+                Haute Horlogerie
+              </span>
+            </div>
+          </div>
 
-        {/* Badge Header */}
-        <div className="flex items-center gap-2 mb-4">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30">
-            <Sparkles size={14} className="text-amber-400 animate-pulse" />
-            {t("storePopup.badge")}
-          </span>
+          {/* Minimal Close Button */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-300 cursor-pointer"
+            aria-label={t("storePopup.close")}
+          >
+            <X size={20} />
+          </button>
         </div>
 
-        {/* Modal Title */}
-        <h2
-          id="store-popup-title"
-          className="text-xl sm:text-2xl font-bold tracking-tight text-white mb-3 flex items-center gap-2"
-        >
-          <Building2 size={24} className="text-amber-400 flex-shrink-0" />
-          <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 bg-clip-text text-transparent">
-            {t("storePopup.title")}
-          </span>
-        </h2>
-
-        {/* Main Announcement Message */}
-        <p className="text-sm sm:text-base leading-relaxed text-zinc-200 font-medium mb-6 bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
-          {t("storePopup.message")}
+        {/* Subtitle Badge */}
+        <p className="text-primary text-[10px] tracking-[0.35em] uppercase font-semibold mb-2">
+          {t("storePopup.badge")}
         </p>
 
-        {/* Location Badges */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl bg-zinc-900/80 border border-amber-500/20 text-center hover:border-amber-500/40 transition-colors">
-            <span className="text-xl mb-1">🇹🇷</span>
-            <span className="text-xs font-semibold text-zinc-200 tracking-wide">
+        {/* Main Title */}
+        <h2
+          id="store-popup-title"
+          className="text-xl sm:text-2xl font-light tracking-wide text-foreground mb-4"
+        >
+          {t("storePopup.title")}
+        </h2>
+
+        {/* Quote / Announcement Box */}
+        <div className="relative pl-4 py-2 my-5 border-l-2 border-primary bg-white/[0.02] rounded-r-xl">
+          <p className="text-sm sm:text-base text-foreground/90 font-light leading-relaxed">
+            "{t("storePopup.message")}"
+          </p>
+        </div>
+
+        {/* Cities Grid */}
+        <div className="grid grid-cols-3 gap-2.5 my-6">
+          <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-colors group">
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇹🇷</span>
+            <span className="text-xs font-medium tracking-wider uppercase text-foreground/90">
               {t("storePopup.cities.istanbul")}
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl bg-zinc-900/80 border border-amber-500/20 text-center hover:border-amber-500/40 transition-colors">
-            <span className="text-xl mb-1">🇱🇧</span>
-            <span className="text-xs font-semibold text-zinc-200 tracking-wide">
+          <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-colors group">
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇱🇧</span>
+            <span className="text-xs font-medium tracking-wider uppercase text-foreground/90">
               {t("storePopup.cities.lebanon")}
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl bg-zinc-900/80 border border-amber-500/20 text-center hover:border-amber-500/40 transition-colors">
-            <span className="text-xl mb-1">🇺🇸</span>
-            <span className="text-xs font-semibold text-zinc-200 tracking-wide">
+          <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-colors group">
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇺🇸</span>
+            <span className="text-xs font-medium tracking-wider uppercase text-foreground/90">
               {t("storePopup.cities.miami")}
             </span>
           </div>
         </div>
 
-        {/* Features Row */}
-        <div className="space-y-2.5 mb-6 text-xs sm:text-sm text-zinc-300">
-          <div className="flex items-center gap-3 p-2.5 rounded-lg bg-amber-500/5 border border-amber-500/15">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-amber-500/10 text-amber-400 flex-shrink-0">
-              <Truck size={16} />
-            </div>
-            <span className="font-medium text-amber-200">{t("storePopup.sameDayDelivery")}</span>
+        {/* Trust Badges */}
+        <div className="grid grid-cols-2 gap-3 mb-8 pt-2">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <Clock size={18} className="text-primary flex-shrink-0" />
+            <span className="text-xs text-muted-foreground font-medium">
+              {t("storePopup.sameDayDelivery")}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3 p-2.5 rounded-lg bg-amber-500/5 border border-amber-500/15">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-amber-500/10 text-amber-400 flex-shrink-0">
-              <Banknote size={16} />
-            </div>
-            <span className="font-medium text-amber-200">{t("storePopup.cashOnDelivery")}</span>
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <Banknote size={18} className="text-primary flex-shrink-0" />
+            <span className="text-xs text-muted-foreground font-medium">
+              {t("storePopup.cashOnDelivery")}
+            </span>
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="flex items-center gap-3 pt-2">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-amber-500/20 cursor-pointer"
-          >
-            {t("storePopup.close")}
-          </button>
-          
+        {/* CTA Buttons */}
+        <div className="flex items-center gap-3 pt-2 border-t border-white/10">
           <Link
             to="/contact"
             onClick={() => setIsOpen(false)}
-            className="py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 text-xs font-semibold uppercase tracking-wider transition-colors text-center"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-gold text-primary-foreground py-3.5 px-6 rounded-xl text-xs tracking-[0.25em] uppercase font-semibold hover:opacity-90 transition-all shadow-lg cursor-pointer"
           >
-            {t("nav.contact")}
+            <span>{t("nav.contact")}</span>
+            <ArrowRight size={14} />
           </Link>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="py-3.5 px-5 rounded-xl border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/5 text-xs tracking-[0.2em] uppercase font-medium transition-colors cursor-pointer"
+          >
+            {t("storePopup.close")}
+          </button>
         </div>
       </div>
     </div>
