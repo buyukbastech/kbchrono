@@ -146,6 +146,19 @@ const resources = {
         cashOnDelivery: "Cash On Delivery",
         codSubtext: "(Only in 🇦🇪 Dubai 🇹🇷 Istanbul)"
       },
+      storePopup: {
+        badge: "Boutique & Delivery Notice",
+        title: "Exclusive Store Locations",
+        message: "Our stores are available in Istanbul, Lebanon, and Miami with same-day delivery and cash on delivery options!",
+        cities: {
+          istanbul: "Istanbul",
+          lebanon: "Lebanon",
+          miami: "Miami"
+        },
+        sameDayDelivery: "Same-Day Delivery",
+        cashOnDelivery: "Cash on Delivery",
+        close: "Close"
+      },
       watches: {
         "kunkor-tourbillon": {
           name: "kbchrono Tourbillon",
@@ -368,6 +381,19 @@ const resources = {
         cashOnDelivery: "Kapıda Ödeme",
         codSubtext: "(Sadece 🇦🇪 Dubai ve 🇹🇷 İstanbul'da)"
       },
+      storePopup: {
+        badge: "Mağaza & Teslimat Bilgisi",
+        title: "Seçkin Mağazalarımız",
+        message: "İstanbul, Lübnan ve Miami’de aynı gün teslimat ve kapıda ödeme imkanıyla, mağazamız mevcuttur!",
+        cities: {
+          istanbul: "İstanbul",
+          lebanon: "Lübnan",
+          miami: "Miami"
+        },
+        sameDayDelivery: "Aynı Gün Teslimat",
+        cashOnDelivery: "Kapıda Ödeme İmkânı",
+        close: "Kapat"
+      },
       watches: {
         "kunkor-tourbillon": {
           name: "kbchrono Tourbillon",
@@ -589,6 +615,19 @@ const resources = {
         freeShipping: "شحن مجاني",
         cashOnDelivery: "الدفع عند الاستلام",
         codSubtext: "(فقط في 🇦🇪 دبي 🇹🇷 إسطنبول)"
+      },
+      storePopup: {
+        badge: "المتاجر والتوصيل",
+        title: "متاجرنا الحصرية",
+        message: "تتوفر متاجرنا في إسطنبول ولبنان وميامي مع خدمة التوصيل في نفس اليوم والدفع عند الاستلام!",
+        cities: {
+          istanbul: "إسطنبول",
+          lebanon: "لبنان",
+          miami: "ميامي"
+        },
+        sameDayDelivery: "توصيل في نفس اليوم",
+        cashOnDelivery: "الدفع عند الاستلام متاح",
+        close: "إغلاق"
       },
       watches: {
         "kunkor-tourbillon": {

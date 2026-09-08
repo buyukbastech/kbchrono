@@ -13,6 +13,7 @@ import Personalization from "./pages/Personalization.tsx";
 import OldMoney from "./pages/OldMoney.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import WhatsAppButton from "./components/WhatsAppButton.tsx";
+import StoreInfoPopup from "./components/StoreInfoPopup.tsx";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useGeoLanguage } from "./hooks/useGeoLanguage";
@@ -69,6 +70,7 @@ const App = () => {
       <BrowserRouter>
         <ScrollToHash />
         <YandexMetrikaTracker />
+        <StoreInfoPopup />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/collections" element={<Collections />} />
