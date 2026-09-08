@@ -61,9 +61,10 @@ const HeroSection = () => {
 
       if (!current || !next) return;
 
-      // 1. Pre-play next video right before transition
+      // 1. Pre-play next video right before transition from 0s
       next.muted = true;
       next.volume = 0;
+      next.currentTime = 0;
       next.play().then(() => {
         // 2. Crossfade opacity
         const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
@@ -72,14 +73,16 @@ const HeroSection = () => {
         current.style.opacity = "0";
         next.style.opacity = "1";
 
-        // 3. Pause old video after transition ends
+        // 3. Pause old video after transition ends & reset time
         setTimeout(() => {
           if (ctx.current.currentIdx === nextIdx) {
             current.pause();
+            current.currentTime = 0;
           }
         }, FADE_DURATION);
       }).catch((err) => {
         console.warn("Video autoplay blocked or failed:", err);
+        next.currentTime = 0;
         const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
         current.style.transition = transition;
         next.style.transition = transition;
