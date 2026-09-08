@@ -1,35 +1,36 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import vid1 from "@/assets/vecteezy_golden-mechanical-skeleton-pocket-watch-hands-moving-fast-to_77651467.mp4";
+import vid1 from "@/assets/kbchrono.mp4";
 import vid2 from "@/assets/vecteezy_uae-dubai-united-arab-emirates-01-april-2024-mesmerizing_42639095.mp4";
-import vid3 from "@/assets/vecteezy_dubai-uae-2022-unique-golden-geneva-brand-watches-in_19428067.mp4";
+import vid3 from "@/assets/kbchrono2.mp4";
 import vid4 from "@/assets/vecteezy_dubai-uae-march-20-of-2021-panorama-of-bluwater-island_16475601.mp4";
-import vid5 from "@/assets/vecteezy_close-up-of-a-gold-watch-with-a-gold-face_71468457.mp4";
-import vid6 from "@/assets/vecteezy_sunrise-over-dubai-skyline_52003429.mp4";
-import vid7 from "@/assets/vecteezy_a-detailed-shot-of-a-gold-watch-with-a-diamondencrusted_47879434.mp4";
-
-const VIDEOS = [vid1, vid2, vid3, vid4, vid5, vid6, vid7];
+import vid5 from "@/assets/kbchrono3.mp4";
+import vid6 from "@/assets/vecteezy_dubai-uae-march-24-2022-the-nightly-panorama-of-funtain_20918871.mp4";
 
 /**
- * Time each video is shown before crossfade begins (ms).
+ * Banner video sequence configuration.
+ * - kbchrono clips: ~10 seconds natural display duration.
+ * - Dubai clips: 5 minutes (300,000 ms) display duration.
  */
-const PLAY_DURATION = 5000;
+const VIDEO_CONFIG = [
+  { src: vid1, duration: 10000 },  // 1. kbchrono.mp4 (Muted)
+  { src: vid2, duration: 300000 }, // 2. Dubai (5 minutes)
+  { src: vid3, duration: 10000 },  // 3. kbchrono2.mp4 (Muted)
+  { src: vid4, duration: 300000 }, // 4. Bluewaters Island (5 minutes)
+  { src: vid5, duration: 10000 },  // 5. kbchrono3.mp4 (Muted)
+  { src: vid6, duration: 300000 }, // 6. Dubai Fountain (5 minutes)
+];
 
 /**
- * Crossfade duration (ms).
+ * Crossfade transition duration (ms).
  */
 const FADE_DURATION = 1200;
 
 const HeroSection = () => {
   const { t, i18n } = useTranslation();
 
-  /**
-   * One ref per video — all 7 are ALWAYS in the DOM and ALWAYS playing.
-   * We never touch src, load(), or mount/unmount anything.
-   * Transitions are pure GPU opacity changes only.
-   */
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>(Array(VIDEOS.length).fill(null));
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>(Array(VIDEO_CONFIG.length).fill(null));
   const ctx = useRef({
     currentIdx: 0,
     timer: null as ReturnType<typeof setTimeout> | null,
@@ -38,8 +39,10 @@ const HeroSection = () => {
   useEffect(() => {
     const vids = videoRefs.current.filter((v): v is HTMLVideoElement => v !== null);
 
-    // Initial state: play only video 0, pause all others
+    // Initial state: start video 0 immediately, mute all, pause others
     vids.forEach((v, i) => {
+      v.muted = true;
+      v.volume = 0;
       v.style.transition = "none";
       v.style.opacity = i === 0 ? "1" : "0";
       if (i === 0) {
@@ -51,32 +54,32 @@ const HeroSection = () => {
 
     const doSwap = () => {
       const { currentIdx } = ctx.current;
-      const nextIdx = (currentIdx + 1) % VIDEOS.length;
+      const nextIdx = (currentIdx + 1) % VIDEO_CONFIG.length;
 
       const current = vids[currentIdx];
       const next = vids[nextIdx];
 
       if (!current || !next) return;
 
-      // 1. Pre-warm: Start playing the next video 500ms before we crossfade it in
+      // 1. Pre-play next video right before transition
+      next.muted = true;
+      next.volume = 0;
       next.play().then(() => {
-        // 2. Crossfade: Transition opacity
+        // 2. Crossfade opacity
         const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
         current.style.transition = transition;
         next.style.transition = transition;
         current.style.opacity = "0";
         next.style.opacity = "1";
 
-        // 3. Cleanup: Pause the old video after the crossfade transition finishes
+        // 3. Pause old video after transition ends
         setTimeout(() => {
-          // Verify we haven't swapped again in the meantime
           if (ctx.current.currentIdx === nextIdx) {
             current.pause();
           }
         }, FADE_DURATION);
       }).catch((err) => {
-        console.warn("Failed to pre-play video:", err);
-        // Fallback: swap anyway
+        console.warn("Video autoplay blocked or failed:", err);
         const transition = `opacity ${FADE_DURATION}ms ease-in-out`;
         current.style.transition = transition;
         next.style.transition = transition;
@@ -85,11 +88,12 @@ const HeroSection = () => {
       });
 
       ctx.current.currentIdx = nextIdx;
-      // Schedule the next swap
-      ctx.current.timer = setTimeout(doSwap, PLAY_DURATION);
+      // Schedule next video swap according to the new active video's duration
+      ctx.current.timer = setTimeout(doSwap, VIDEO_CONFIG[nextIdx].duration);
     };
 
-    ctx.current.timer = setTimeout(doSwap, PLAY_DURATION);
+    // Schedule first swap after video 0's duration
+    ctx.current.timer = setTimeout(doSwap, VIDEO_CONFIG[0].duration);
 
     return () => {
       if (ctx.current.timer) clearTimeout(ctx.current.timer);
@@ -100,23 +104,21 @@ const HeroSection = () => {
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
 
       {/* ── Video Background ── */}
-      <div className="absolute inset-0" style={{ zIndex: 0 }}>
-        {VIDEOS.map((src, i) => (
+      <div className="absolute inset-0 bg-black" style={{ zIndex: 0 }}>
+        {VIDEO_CONFIG.map((item, i) => (
           <video
             key={i}
             ref={el => { videoRefs.current[i] = el; }}
-            src={src}
+            src={item.src}
             autoPlay
             muted
             playsInline
             loop
-            /*
-             * will-change: opacity forces the browser to promote this element
-             * to its own GPU compositing layer. Opacity changes never trigger
-             * a paint or layout — they are applied entirely on the GPU.
-             * This eliminates any CPU-side decode stutter during crossfades.
-             */
-            style={{ willChange: "opacity" }}
+            preload="auto"
+            style={{
+              willChange: "opacity",
+              opacity: i === 0 ? 1 : 0,
+            }}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ))}
