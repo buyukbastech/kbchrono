@@ -14,7 +14,7 @@ import vid6 from "@/assets/vecteezy_dubai-uae-march-24-2022-the-nightly-panorama
  * - Dubai clips: 5 minutes (300,000 ms) display duration.
  */
 const VIDEO_CONFIG = [
-  { src: vid1, duration: 7000 },  // 1. kbchrono.mp4 (7 seconds - ends before white flash)
+  { src: vid1, duration: 6000 },  // 1. kbchrono.mp4 (6 seconds - finishes before 7.42s white flash)
   { src: vid2, duration: 5000 },  // 2. Dubai Mesmerizing (5 seconds)
   { src: vid3, duration: 10000 }, // 3. kbchrono2.mp4 (10 seconds)
   { src: vid4, duration: 5000 },  // 4. Bluewaters Island (5 seconds)
