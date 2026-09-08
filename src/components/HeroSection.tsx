@@ -14,12 +14,12 @@ import vid6 from "@/assets/vecteezy_dubai-uae-march-24-2022-the-nightly-panorama
  * - Dubai clips: 5 minutes (300,000 ms) display duration.
  */
 const VIDEO_CONFIG = [
-  { src: vid1, duration: 10000 },  // 1. kbchrono.mp4 (10 seconds)
-  { src: vid2, duration: 300000 }, // 2. Dubai Mesmerizing (5 minutes)
-  { src: vid3, duration: 10000 },  // 3. kbchrono2.mp4 (10 seconds)
-  { src: vid4, duration: 10000 },  // 4. Bluewaters Island (10 seconds)
-  { src: vid5, duration: 10000 },  // 5. kbchrono3.mp4 (10 seconds)
-  { src: vid6, duration: 10000 },  // 6. Dubai Fountain (10 seconds)
+  { src: vid1, duration: 10000 }, // 1. kbchrono.mp4 (10 seconds)
+  { src: vid2, duration: 5000 },  // 2. Dubai Mesmerizing (5 seconds)
+  { src: vid3, duration: 10000 }, // 3. kbchrono2.mp4 (10 seconds)
+  { src: vid4, duration: 5000 },  // 4. Bluewaters Island (5 seconds)
+  { src: vid5, duration: 10000 }, // 5. kbchrono3.mp4 (10 seconds)
+  { src: vid6, duration: 5000 },  // 6. Dubai Fountain (5 seconds)
 ];
 
 /**
