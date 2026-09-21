@@ -4,6 +4,7 @@ import { watches } from "@/data/watches";
 import { supabase } from "@/lib/supabase";
 import LuxuryNav from "@/components/LuxuryNav";
 import LuxuryFooter from "@/components/LuxuryFooter";
+import WatchQuickView from "@/components/WatchQuickView";
 import { useReveal } from "@/hooks/useReveal";
 import { useAutoTranslate } from "@/hooks/useAutoTranslate";
 import { ArrowLeft, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -15,6 +16,7 @@ const WatchDetail = () => {
   const { id } = useParams();
   const [watch, setWatch] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showQuickView, setShowQuickView] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
@@ -186,7 +188,10 @@ const WatchDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
           {/* Image / Carousel */}
-          <div className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl lg:sticky lg:top-24 relative z-10">
+          <div 
+            className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl lg:sticky lg:top-24 relative z-10 group cursor-pointer"
+            onClick={() => setShowQuickView(true)}
+          >
             {watch.images && watch.images.length > 0 ? (
               <div className="embla h-full w-full" ref={emblaRef} dir="ltr">
                 <div
@@ -201,23 +206,23 @@ const WatchDetail = () => {
                       <img
                         src={img}
                         alt={`${watch.name} - ${idx}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                   ))}
                 </div>
                 <div
-                  className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10"
+                  className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 z-10 pointer-events-auto"
                   dir="ltr"
                 >
                   <button
-                    onClick={() => emblaApi?.scrollPrev()}
+                    onClick={(e) => { e.stopPropagation(); emblaApi?.scrollPrev(); }}
                     className="h-10 w-10 flex items-center justify-center rounded-full glass hover:bg-white/20 transition-colors"
                   >
                     <ChevronLeft size={20} />
                   </button>
                   <button
-                    onClick={() => emblaApi?.scrollNext()}
+                    onClick={(e) => { e.stopPropagation(); emblaApi?.scrollNext(); }}
                     className="h-10 w-10 flex items-center justify-center rounded-full glass hover:bg-white/20 transition-colors"
                   >
                     <ChevronRight size={20} />
@@ -230,9 +235,58 @@ const WatchDetail = () => {
                 alt={watch.name}
                 width={800}
                 height={1000}
-                className="w-full h-full object-cover animate-fade-in"
+                className="w-full h-full object-cover animate-fade-in transition-transform duration-700 group-hover:scale-105"
               />
             )}
+            
+            {/* Hover Overlay mimicking the mobile design */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex flex-col justify-between p-6">
+              <div className="bg-background/95 backdrop-blur-md self-start p-4 md:p-6 border border-white/10 rounded-sm max-w-[85%] transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-2">
+                  {getVal("collection", watch.collection)}
+                </p>
+                <h2 className="text-xl md:text-2xl font-bold text-foreground leading-tight">
+                  {getVal("name", watch.name)}
+                </h2>
+              </div>
+              
+              <div className="bg-background/95 backdrop-blur-md self-end p-4 md:p-6 border border-white/10 rounded-sm w-full md:w-[85%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-auto">
+                <p className="text-lg md:text-xl font-bold text-gradient-gold mb-4">
+                  {watch.price ? (() => {
+                    const clean = watch.price.replace(/[₺$\s.]/g, '');
+                    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    return `$ ${formatted}`;
+                  })() : ''}
+                </p>
+                <div className="flex flex-col gap-3">
+                  <a
+                    href="https://wa.me/905306044763"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-gradient-gold text-primary-foreground px-4 py-3 text-[10px] tracking-[0.2em] uppercase font-semibold hover:opacity-90 transition-opacity text-center w-full"
+                  >
+                    {t("common.requestInfo")}
+                  </a>
+                  <a
+                    href="https://wa.me/905306044763"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="border border-white/20 text-foreground px-4 py-3 text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-white/5 transition-colors text-center w-full"
+                  >
+                    {t("common.bookViewing")}
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            {/* Center Hint */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+              <span className="text-white text-xs tracking-widest uppercase border border-white/30 bg-black/30 px-6 py-2 rounded-full backdrop-blur-sm">
+                {t("common.quickView", "Hızlı Görünüm")}
+              </span>
+            </div>
           </div>
 
           {/* Info */}
@@ -312,6 +366,10 @@ const WatchDetail = () => {
       </section>
 
       <LuxuryFooter />
+      
+      {showQuickView && (
+        <WatchQuickView watch={watch} onClose={() => setShowQuickView(false)} />
+      )}
     </div>
   );
 };
