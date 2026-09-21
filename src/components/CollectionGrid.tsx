@@ -32,6 +32,8 @@ const FALLBACK_OPTIONS: Record<FilterKey, string[]> = {
   color:      ["All", "Green", "Blue", "Black", "Silver", "Gold"],
 };
 
+import WatchQuickView from "./WatchQuickView";
+
 // ── Simple Image Component ──────────────────────────────────────────────────────
 function TransparentImage({ src, alt, className }: { src: string, alt: string, className?: string }) {
   const [loaded, setLoaded] = useState(false);
@@ -48,7 +50,7 @@ function TransparentImage({ src, alt, className }: { src: string, alt: string, c
 }
 
 // ── Watch Card ────────────────────────────────────────────────────────────────
-function WatchCard({ watch }: { watch: any }) {
+function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
   const { t, i18n } = useTranslation();
   const { translated } = useAutoTranslate({
     name: watch.name || "", collection: watch.collection || "", tagline: watch.tagline || "",
@@ -58,7 +60,7 @@ function WatchCard({ watch }: { watch: any }) {
   const tag  = i18n.language === "tr" ? watch.tagline : (watch.is_from_db ? translated.tagline || watch.tagline : t(`watches.${watch.id}.tagline`, { defaultValue: watch.tagline }));
 
   return (
-    <Link to={`/watch/${watch.id}`} className="group block" style={{ textDecoration: "none" }}>
+    <div onClick={onClick} className="group block cursor-pointer" style={{ textDecoration: "none" }}>
       {/* 1. Sabit Görüntü Kapsayıcısı (Strict Image Wrapper) & 3. Güvenli Alan ve Padding (p-8) */}
       <div className="relative w-full aspect-square flex items-center justify-center p-8 bg-transparent overflow-hidden">
         
@@ -84,7 +86,7 @@ function WatchCard({ watch }: { watch: any }) {
           </p>
         )}
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -97,6 +99,7 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
     collection: fixedCollection || "All",
   });
   const [openKey, setOpenKey]               = useState<FilterKey | null>(null);
+  const [selectedWatch, setSelectedWatch]   = useState<any>(null);
   const barRef                              = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
 
@@ -216,6 +219,7 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
             collection: String(item.collection ?? item.category ?? "").trim(),
             tagline: item.description || (item.translations && item.translations.en && item.translations.en.description) || (item.translations && item.translations.tr && item.translations.tr.description) || item.tagline || "",
             image: item.image,
+            price: item.price,
             is_from_db: true,
             model: item.translations?.metadata?.model || "",
             concept: item.translations?.metadata?.concept || "",
@@ -475,10 +479,14 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
           </div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:gap-x-8 lg:gap-y-16">
-            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} />)}
+            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} onClick={() => setSelectedWatch(w)} />)}
           </div>
         )}
       </div>
+
+      {selectedWatch && (
+        <WatchQuickView watch={selectedWatch} onClose={() => setSelectedWatch(null)} />
+      )}
     </section>
   );
 }
