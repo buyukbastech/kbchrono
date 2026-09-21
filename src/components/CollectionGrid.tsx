@@ -32,115 +32,19 @@ const FALLBACK_OPTIONS: Record<FilterKey, string[]> = {
   color:      ["All", "Green", "Blue", "Black", "Silver", "Gold"],
 };
 
-// ── Background Removal Image ──────────────────────────────────────────────────
+// ── Simple Image Component ──────────────────────────────────────────────────────
 function TransparentImage({ src, alt, className }: { src: string, alt: string, className?: string }) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  
-  useEffect(() => {
-    if (!src) return;
-    // Eğer görsel blob/data uri ise (CRM'den yeni eklendiyse) zaten şeffaftır, boşuna işlem yapma
-    if (src.startsWith('data:image/webp') || src.startsWith('blob:')) {
-      setImageSrc(src);
-      return;
-    }
+  const [loaded, setLoaded] = useState(false);
 
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = src;
-    img.onload = () => {
-      try {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
-        if(!ctx) return;
-        ctx.drawImage(img, 0, 0);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        const visited = new Uint8Array(canvas.width * canvas.height);
-        const stack = [
-          [0, 0], [canvas.width - 1, 0], 
-          [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1],
-          [Math.floor(canvas.width/2), 0], [Math.floor(canvas.width/2), canvas.height - 1],
-          [0, Math.floor(canvas.height/2)], [canvas.width - 1, Math.floor(canvas.height/2)]
-        ];
-        
-        // EN GÜVENLİ YÖNTEM: Sadece Kusursuz Beyazı (Stüdyo) Sil (> 240).
-        // Bu sayede beyaz/gri saatlerin kasası veya kenarları ASLA yenmez, saat bozulmaz.
-        const isWhite = (r: number, g: number, b: number) => r > 240 && g > 240 && b > 240;
-        
-        while(stack.length > 0) {
-          const [x, y] = stack.pop()!;
-          if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
-          const idx = y * canvas.width + x;
-          if (visited[idx]) continue;
-          
-          const i = idx * 4;
-          if (isWhite(data[i], data[i+1], data[i+2])) {
-            visited[idx] = 1;
-            data[i+3] = 0; // Şeffaf yap
-            stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
-          }
-        }
-        ctx.putImageData(imageData, 0, 0);
-
-        // --- Bounding Box Crop ---
-        let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
-        for (let y = 0; y < canvas.height; y++) {
-          for (let x = 0; x < canvas.width; x++) {
-            const alpha = data[(y * canvas.width + x) * 4 + 3];
-            // Yarı saydam veya silik parazitleri tamamen yoksay (sadece net saati baz al)
-            if (alpha > 50) { 
-              if (x < minX) minX = x;
-              if (x > maxX) maxX = x;
-              if (y < minY) minY = y;
-              if (y > maxY) maxY = y;
-            }
-          }
-        }
-
-        if (minX >= maxX || minY >= maxY) {
-          setImageSrc(canvas.toDataURL());
-          return;
-        }
-
-        const objW = maxX - minX;
-        const objH = maxY - minY;
-
-        const maxObjDim = Math.max(objW, objH);
-        
-        // EŞİT BOYUTLANDIRMA: Saatin çok büyük (şişik) görünmesini engellemek için,
-        // karenin %80'ini kaplayacak şekilde %10 lüks padding ekliyoruz.
-        const squareSize = maxObjDim / 0.8;
-        const padding = squareSize * 0.10;
-
-        const finalCanvas = document.createElement("canvas");
-        finalCanvas.width = squareSize;
-        finalCanvas.height = squareSize;
-        const fCtx = finalCanvas.getContext("2d");
-        
-        if (fCtx) {
-          fCtx.imageSmoothingEnabled = true;
-          fCtx.imageSmoothingQuality = 'high';
-        }
-
-        const dx = padding + (maxObjDim - objW) / 2;
-        const dy = padding + (maxObjDim - objH) / 2;
-
-        fCtx?.drawImage(canvas, minX, minY, objW, objH, dx, dy, objW, objH);
-        setImageSrc(finalCanvas.toDataURL("image/webp", 1.0));
-      } catch (e) {
-        console.warn("Canvas background removal failed:", e);
-        setImageSrc(src);
-      }
-    };
-    img.onerror = () => setImageSrc(src);
-  }, [src]);
-
-  if (!imageSrc) return null; // İşlem bitene kadar beyaz arkaplanlı ham resmi gösterme!
-
-  return <img src={imageSrc} alt={alt} loading="lazy" className={`${className} animate-fade-in`} />;
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      loading="lazy" 
+      onLoad={() => setLoaded(true)}
+      className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`} 
+    />
+  );
 }
 
 // ── Watch Card ────────────────────────────────────────────────────────────────
