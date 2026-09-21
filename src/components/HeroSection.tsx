@@ -1,25 +1,21 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import vid1 from "@/assets/kbchrono.mp4";
-import vid2 from "@/assets/vecteezy_uae-dubai-united-arab-emirates-01-april-2024-mesmerizing_42639095.mp4";
-import vid3 from "@/assets/kbchrono2.mp4";
-import vid4 from "@/assets/vecteezy_dubai-uae-march-20-of-2021-panorama-of-bluwater-island_16475601.mp4";
-import vid5 from "@/assets/kbchrono3.mp4";
-import vid6 from "@/assets/vecteezy_dubai-uae-march-24-2022-the-nightly-panorama-of-funtain_20918871.mp4";
+import vid1 from "@/assets/vecteezy_uae-dubai-united-arab-emirates-01-april-2024-mesmerizing_42639095.mp4";
+import vid2 from "@/assets/kbchrononew_5.mp4";
+import vid3 from "@/assets/vecteezy_dubai-uae-march-20-of-2021-panorama-of-bluwater-island_16475601.mp4";
+import vid4 from "@/assets/kbchrono_new.mp4";
+import vid5 from "@/assets/kbchrononew_6.mp4";
 
 /**
  * Banner video sequence configuration.
- * - kbchrono clips: ~10 seconds natural display duration.
- * - Dubai clips: 5 minutes (300,000 ms) display duration.
  */
 const VIDEO_CONFIG = [
-  { src: vid1, duration: 6000 },  // 1. kbchrono.mp4 (6 seconds - finishes before 7.42s white flash)
-  { src: vid2, duration: 5000 },  // 2. Dubai Mesmerizing (5 seconds)
-  { src: vid3, duration: 10000 }, // 3. kbchrono2.mp4 (10 seconds)
-  { src: vid4, duration: 5000 },  // 4. Bluewaters Island (5 seconds)
-  { src: vid5, duration: 10000 }, // 5. kbchrono3.mp4 (10 seconds)
-  { src: vid6, duration: 5000 },  // 6. Dubai Fountain (5 seconds)
+  { src: vid1, duration: 5000 },  // 1. Dubai Mesmerizing (5 seconds)
+  { src: vid2, duration: 8000 },  // 2. kbchrononew_5 (8 seconds)
+  { src: vid3, duration: 5000 },  // 3. Bluewaters Island (5 seconds)
+  { src: vid4, duration: 8000 },  // 4. kbchrono_new (8 seconds)
+  { src: vid5, duration: 8000 },  // 5. kbchrononew_6 (8 seconds)
 ];
 
 /**
@@ -113,11 +109,11 @@ const HeroSection = () => {
             key={i}
             ref={el => { videoRefs.current[i] = el; }}
             src={item.src}
-            autoPlay
+            autoPlay={i === 0}
             muted
             playsInline
             loop
-            preload="auto"
+            preload={i === 0 ? "auto" : "metadata"}
             style={{
               willChange: "opacity",
               opacity: i === 0 ? 1 : 0,
