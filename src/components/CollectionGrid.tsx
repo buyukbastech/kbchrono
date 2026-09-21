@@ -59,6 +59,12 @@ function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
   const col  = i18n.language === "tr" ? watch.collection : (watch.is_from_db ? translated.collection || watch.collection : t(`watches.${watch.id}.collection`, { defaultValue: watch.collection }));
   const tag  = i18n.language === "tr" ? watch.tagline : (watch.is_from_db ? translated.tagline || watch.tagline : t(`watches.${watch.id}.tagline`, { defaultValue: watch.tagline }));
 
+  const formattedPrice = watch.price ? (() => {
+    const clean = String(watch.price).replace(/[₺$\s.]/g, '');
+    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `$ ${formatted}`;
+  })() : '';
+
   return (
     <div onClick={onClick} className="group block cursor-pointer" style={{ textDecoration: "none" }}>
       {/* 1. Sabit Görüntü Kapsayıcısı (Strict Image Wrapper) & 3. Güvenli Alan ve Padding (p-8) */}
@@ -71,9 +77,18 @@ function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
           className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.07] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" 
         />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Desktop Hover Overlay with Product Info */}
+        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4 backdrop-blur-sm pointer-events-none hidden lg:flex">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{col}</p>
+          <h3 className="font-bold text-base text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{name}</h3>
+          {formattedPrice && (
+            <p className="text-sm font-semibold text-gradient-gold translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">{formattedPrice}</p>
+          )}
+        </div>
       </div>
-      <div className="pt-4 text-center px-2">
+      
+      {/* Mobile/Tablet text (hidden on large screens where hover overlay takes over) */}
+      <div className="pt-4 text-center px-2 lg:hidden">
         <p className="text-[9px] sm:text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
           {col}
         </p>
