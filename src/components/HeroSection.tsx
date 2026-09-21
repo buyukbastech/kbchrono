@@ -2,20 +2,18 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import vid1 from "@/assets/vecteezy_uae-dubai-united-arab-emirates-01-april-2024-mesmerizing_42639095.mp4";
-import vid2 from "@/assets/kbchrononew_5.mp4";
+import vid2 from "@/assets/kbchrono_new.mp4";
 import vid3 from "@/assets/vecteezy_dubai-uae-march-20-of-2021-panorama-of-bluwater-island_16475601.mp4";
-import vid4 from "@/assets/kbchrono_new.mp4";
-import vid5 from "@/assets/kbchrononew_6.mp4";
+import vid4 from "@/assets/kbchrononew_6.mp4";
 
 /**
  * Banner video sequence configuration.
  */
 const VIDEO_CONFIG = [
   { src: vid1, duration: 5000 },  // 1. Dubai Mesmerizing (5 seconds)
-  { src: vid2, duration: 8000 },  // 2. kbchrononew_5 (8 seconds)
+  { src: vid2, duration: 8000 },  // 2. kbchrono_new (8 seconds)
   { src: vid3, duration: 5000 },  // 3. Bluewaters Island (5 seconds)
-  { src: vid4, duration: 8000 },  // 4. kbchrono_new (8 seconds)
-  { src: vid5, duration: 8000 },  // 5. kbchrononew_6 (8 seconds)
+  { src: vid4, duration: 8000 },  // 4. kbchrononew_6 (8 seconds)
 ];
 
 /**
