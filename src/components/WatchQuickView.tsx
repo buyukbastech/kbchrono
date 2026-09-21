@@ -23,9 +23,8 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
     <div className="fixed inset-0 z-[200] flex flex-col bg-black animate-in fade-in zoom-in-95 duration-300">
       
       {/* Background & Main Image */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img src={watch.image} alt="" className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-30 scale-110" />
-        <img src={watch.image} alt={name} className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-4 sm:p-20" />
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center p-4 sm:p-20">
+        <img src={watch.image} alt={name} className="w-full h-full object-contain" />
       </div>
       
       {/* Close / Back button */}
