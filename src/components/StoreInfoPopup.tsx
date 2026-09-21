@@ -34,7 +34,7 @@ export const StoreInfoPopup = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in duration-500"
+      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/85 animate-in fade-in duration-500"
       onClick={() => setIsOpen(false)}
       role="dialog"
       aria-modal="true"
@@ -42,7 +42,7 @@ export const StoreInfoPopup = () => {
     >
       {/* Luxury Modal Container */}
       <div
-        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-background/95 border border-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-300"
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-background/95 border border-white/10 p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Subtle Gold Accent Line */}
