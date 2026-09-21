@@ -67,8 +67,8 @@ function TransparentImage({ src, alt, className }: { src: string, alt: string, c
         ];
         
         // EN GÜVENLİ YÖNTEM: Sadece Kusursuz Beyazı (Stüdyo) Sil (> 240).
-        // Bu sayede beyaz/gri saatlerin kasası veya kenarları ASLA yenmez, saat bozulmaz.
-        const isWhite = (r: number, g: number, b: number) => r > 240 && g > 240 && b > 240;
+        // Ancak bazı JPG'lerde sıkıştırma nedeniyle kenarlar 230 civarı olabiliyor.
+        const isWhite = (r: number, g: number, b: number) => r > 225 && g > 225 && b > 225;
         
         while(stack.length > 0) {
           const [x, y] = stack.pop()!;
