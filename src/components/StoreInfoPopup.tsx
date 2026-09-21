@@ -34,7 +34,7 @@ export const StoreInfoPopup = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/85 animate-in fade-in duration-500"
+      className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-transparent animate-in fade-in duration-500"
       onClick={() => setIsOpen(false)}
       role="dialog"
       aria-modal="true"
