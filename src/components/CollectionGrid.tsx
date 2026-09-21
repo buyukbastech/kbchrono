@@ -32,25 +32,119 @@ const FALLBACK_OPTIONS: Record<FilterKey, string[]> = {
   color:      ["All", "Green", "Blue", "Black", "Silver", "Gold"],
 };
 
-import WatchQuickView from "./WatchQuickView";
-
-// ── Simple Image Component ──────────────────────────────────────────────────────
+// ── Background Removal Image ──────────────────────────────────────────────────
 function TransparentImage({ src, alt, className }: { src: string, alt: string, className?: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  
+  useEffect(() => {
+    if (!src) return;
+    // Eğer görsel blob/data uri ise (CRM'den yeni eklendiyse) zaten şeffaftır, boşuna işlem yapma
+    if (src.startsWith('data:image/webp') || src.startsWith('blob:')) {
+      setImageSrc(src);
+      return;
+    }
 
-  return (
-    <img 
-      src={src} 
-      alt={alt} 
-      loading="lazy" 
-      onLoad={() => setLoaded(true)}
-      className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`} 
-    />
-  );
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = src;
+    img.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        if(!ctx) return;
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        const visited = new Uint8Array(canvas.width * canvas.height);
+        const stack = [
+          [0, 0], [canvas.width - 1, 0], 
+          [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1],
+          [Math.floor(canvas.width/2), 0], [Math.floor(canvas.width/2), canvas.height - 1],
+          [0, Math.floor(canvas.height/2)], [canvas.width - 1, Math.floor(canvas.height/2)]
+        ];
+        
+        // EN GÜVENLİ YÖNTEM: Sadece Kusursuz Beyazı (Stüdyo) Sil (> 240).
+        // Bu sayede beyaz/gri saatlerin kasası veya kenarları ASLA yenmez, saat bozulmaz.
+        const isWhite = (r: number, g: number, b: number) => r > 240 && g > 240 && b > 240;
+        
+        while(stack.length > 0) {
+          const [x, y] = stack.pop()!;
+          if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
+          const idx = y * canvas.width + x;
+          if (visited[idx]) continue;
+          
+          const i = idx * 4;
+          if (isWhite(data[i], data[i+1], data[i+2])) {
+            visited[idx] = 1;
+            data[i+3] = 0; // Şeffaf yap
+            stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
+          }
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        // --- Bounding Box Crop ---
+        let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+        for (let y = 0; y < canvas.height; y++) {
+          for (let x = 0; x < canvas.width; x++) {
+            const alpha = data[(y * canvas.width + x) * 4 + 3];
+            // Yarı saydam veya silik parazitleri tamamen yoksay (sadece net saati baz al)
+            if (alpha > 50) { 
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+
+        if (minX >= maxX || minY >= maxY) {
+          setImageSrc(canvas.toDataURL());
+          return;
+        }
+
+        const objW = maxX - minX;
+        const objH = maxY - minY;
+
+        const maxObjDim = Math.max(objW, objH);
+        
+        // EŞİT BOYUTLANDIRMA: Saatin çok büyük (şişik) görünmesini engellemek için,
+        // karenin %80'ini kaplayacak şekilde %10 lüks padding ekliyoruz.
+        const squareSize = maxObjDim / 0.8;
+        const padding = squareSize * 0.10;
+
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = squareSize;
+        finalCanvas.height = squareSize;
+        const fCtx = finalCanvas.getContext("2d");
+        
+        if (fCtx) {
+          fCtx.imageSmoothingEnabled = true;
+          fCtx.imageSmoothingQuality = 'high';
+        }
+
+        const dx = padding + (maxObjDim - objW) / 2;
+        const dy = padding + (maxObjDim - objH) / 2;
+
+        fCtx?.drawImage(canvas, minX, minY, objW, objH, dx, dy, objW, objH);
+        setImageSrc(finalCanvas.toDataURL("image/webp", 1.0));
+      } catch (e) {
+        console.warn("Canvas background removal failed:", e);
+        setImageSrc(src);
+      }
+    };
+    img.onerror = () => setImageSrc(src);
+  }, [src]);
+
+  if (!imageSrc) return null; // İşlem bitene kadar beyaz arkaplanlı ham resmi gösterme!
+
+  return <img src={imageSrc} alt={alt} loading="lazy" className={`${className} animate-fade-in`} />;
 }
 
 // ── Watch Card ────────────────────────────────────────────────────────────────
-function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
+function WatchCard({ watch }: { watch: any }) {
   const { t, i18n } = useTranslation();
   const { translated } = useAutoTranslate({
     name: watch.name || "", collection: watch.collection || "", tagline: watch.tagline || "",
@@ -59,14 +153,8 @@ function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
   const col  = i18n.language === "tr" ? watch.collection : (watch.is_from_db ? translated.collection || watch.collection : t(`watches.${watch.id}.collection`, { defaultValue: watch.collection }));
   const tag  = i18n.language === "tr" ? watch.tagline : (watch.is_from_db ? translated.tagline || watch.tagline : t(`watches.${watch.id}.tagline`, { defaultValue: watch.tagline }));
 
-  const formattedPrice = watch.price ? (() => {
-    const clean = String(watch.price).replace(/[₺$\s.]/g, '');
-    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return `$ ${formatted}`;
-  })() : '';
-
   return (
-    <div onClick={onClick} className="group block cursor-pointer" style={{ textDecoration: "none" }}>
+    <Link to={`/watch/${watch.id}`} className="group block" style={{ textDecoration: "none" }}>
       {/* 1. Sabit Görüntü Kapsayıcısı (Strict Image Wrapper) & 3. Güvenli Alan ve Padding (p-8) */}
       <div className="relative w-full aspect-square flex items-center justify-center p-8 bg-transparent overflow-hidden">
         
@@ -77,18 +165,9 @@ function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
           className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.07] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" 
         />
         
-        {/* Desktop Hover Overlay with Product Info */}
-        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4 backdrop-blur-sm pointer-events-none hidden lg:flex">
-          <p className="text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{col}</p>
-          <h3 className="font-bold text-base text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{name}</h3>
-          {formattedPrice && (
-            <p className="text-sm font-semibold text-gradient-gold translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">{formattedPrice}</p>
-          )}
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
-      
-      {/* Mobile/Tablet text (hidden on large screens where hover overlay takes over) */}
-      <div className="pt-4 text-center px-2 lg:hidden">
+      <div className="pt-4 text-center px-2">
         <p className="text-[9px] sm:text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
           {col}
         </p>
@@ -101,7 +180,7 @@ function WatchCard({ watch, onClick }: { watch: any, onClick: () => void }) {
           </p>
         )}
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -114,7 +193,6 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
     collection: fixedCollection || "All",
   });
   const [openKey, setOpenKey]               = useState<FilterKey | null>(null);
-  const [selectedWatch, setSelectedWatch]   = useState<any>(null);
   const barRef                              = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
 
@@ -234,7 +312,6 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
             collection: String(item.collection ?? item.category ?? "").trim(),
             tagline: item.description || (item.translations && item.translations.en && item.translations.en.description) || (item.translations && item.translations.tr && item.translations.tr.description) || item.tagline || "",
             image: item.image,
-            price: item.price,
             is_from_db: true,
             model: item.translations?.metadata?.model || "",
             concept: item.translations?.metadata?.concept || "",
@@ -494,14 +571,10 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
           </div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:gap-x-8 lg:gap-y-16">
-            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} onClick={() => setSelectedWatch(w)} />)}
+            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} />)}
           </div>
         )}
       </div>
-
-      {selectedWatch && (
-        <WatchQuickView watch={selectedWatch} onClose={() => setSelectedWatch(null)} />
-      )}
     </section>
   );
 }

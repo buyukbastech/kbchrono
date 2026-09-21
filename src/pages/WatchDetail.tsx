@@ -4,7 +4,6 @@ import { watches } from "@/data/watches";
 import { supabase } from "@/lib/supabase";
 import LuxuryNav from "@/components/LuxuryNav";
 import LuxuryFooter from "@/components/LuxuryFooter";
-import WatchQuickView from "@/components/WatchQuickView";
 import { useReveal } from "@/hooks/useReveal";
 import { useAutoTranslate } from "@/hooks/useAutoTranslate";
 import { ArrowLeft, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -16,7 +15,6 @@ const WatchDetail = () => {
   const { id } = useParams();
   const [watch, setWatch] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [showQuickView, setShowQuickView] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
@@ -188,7 +186,7 @@ const WatchDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
           {/* Image / Carousel */}
-          <div className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl lg:sticky lg:top-24 relative z-10 group cursor-pointer" onClick={() => setShowQuickView(true)}>
+          <div className="relative overflow-hidden bg-black aspect-[3/4] lg:h-[75vh] w-full max-w-[56.25vh] mx-auto rounded-lg border border-border/30 shadow-2xl lg:sticky lg:top-24 relative z-10">
             {watch.images && watch.images.length > 0 ? (
               <div className="embla h-full w-full" ref={emblaRef} dir="ltr">
                 <div
@@ -203,7 +201,7 @@ const WatchDetail = () => {
                       <img
                         src={img}
                         alt={`${watch.name} - ${idx}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   ))}
@@ -213,13 +211,13 @@ const WatchDetail = () => {
                   dir="ltr"
                 >
                   <button
-                    onClick={(e) => { e.stopPropagation(); emblaApi?.scrollPrev(); }}
+                    onClick={() => emblaApi?.scrollPrev()}
                     className="h-10 w-10 flex items-center justify-center rounded-full glass hover:bg-white/20 transition-colors"
                   >
                     <ChevronLeft size={20} />
                   </button>
                   <button
-                    onClick={(e) => { e.stopPropagation(); emblaApi?.scrollNext(); }}
+                    onClick={() => emblaApi?.scrollNext()}
                     className="h-10 w-10 flex items-center justify-center rounded-full glass hover:bg-white/20 transition-colors"
                   >
                     <ChevronRight size={20} />
@@ -232,16 +230,9 @@ const WatchDetail = () => {
                 alt={watch.name}
                 width={800}
                 height={1000}
-                className="w-full h-full object-cover animate-fade-in group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover animate-fade-in"
               />
             )}
-            
-            {/* Hover overlay hint */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-              <span className="text-white text-xs tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm">
-                {t("common.quickView", "Hızlı Görünüm")}
-              </span>
-            </div>
           </div>
 
           {/* Info */}
@@ -321,10 +312,6 @@ const WatchDetail = () => {
       </section>
 
       <LuxuryFooter />
-      
-      {showQuickView && (
-        <WatchQuickView watch={watch} onClose={() => setShowQuickView(false)} />
-      )}
     </div>
   );
 };
