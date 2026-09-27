@@ -32,10 +32,9 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
 
   const slides: { type: '3d' | 'image', src: string }[] = [];
 
-  // Default to a placeholder if no model3d is provided just to show the feature
-  const model3dUrl = watch.model3d || "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
-
-  slides.push({ type: '3d', src: model3dUrl });
+  if (watch.model3d) {
+    slides.push({ type: '3d', src: watch.model3d });
+  }
   
   if (watch.image) {
     slides.push({ type: 'image', src: watch.image });
