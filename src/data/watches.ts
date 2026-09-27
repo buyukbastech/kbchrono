@@ -9,6 +9,7 @@ export interface Watch {
   price: string;
   image: string;
   images?: string[];
+  model3d?: string;
   specs: {
     movement: string;
     case_material: string;

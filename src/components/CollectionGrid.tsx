@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import WatchQuickView from "./WatchQuickView";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { watches as localWatches } from "@/data/watches";
 import { supabase } from "@/lib/supabase";
@@ -144,7 +145,7 @@ function TransparentImage({ src, alt, className }: { src: string, alt: string, c
 }
 
 // ── Watch Card ────────────────────────────────────────────────────────────────
-function WatchCard({ watch }: { watch: any }) {
+function WatchCard({ watch, onQuickView }: { watch: any; onQuickView: (w: any) => void }) {
   const { t, i18n } = useTranslation();
   const { translated } = useAutoTranslate({
     name: watch.name || "", collection: watch.collection || "", tagline: watch.tagline || "",
@@ -165,7 +166,17 @@ function WatchCard({ watch }: { watch: any }) {
           className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.07] drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" 
         />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* HIZLI GÖRÜNÜM BUTTON */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 z-10">
+          <button 
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(watch); }}
+            className="px-6 py-2.5 bg-black/80 backdrop-blur-md border border-white/20 text-[10px] tracking-[0.2em] uppercase text-white hover:bg-white hover:text-black transition-colors rounded-full whitespace-nowrap"
+          >
+            {i18n.language === "tr" ? "HIZLI GÖRÜNÜM" : i18n.language === "ar" ? "نظرة سريعة" : "QUICK VIEW"}
+          </button>
+        </div>
       </div>
       <div className="pt-4 text-center px-2">
         <p className="text-[9px] sm:text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
@@ -193,6 +204,7 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
     collection: fixedCollection || "All",
   });
   const [openKey, setOpenKey]               = useState<FilterKey | null>(null);
+  const [quickViewWatch, setQuickViewWatch] = useState<any>(null);
   const barRef                              = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
 
@@ -571,10 +583,14 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
           </div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:gap-x-8 lg:gap-y-16">
-            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} />)}
+            {filtered.map((w: any) => <WatchCard key={w.id} watch={w} onQuickView={setQuickViewWatch} />)}
           </div>
         )}
       </div>
+
+      {quickViewWatch && (
+        <WatchQuickView watch={quickViewWatch} onClose={() => setQuickViewWatch(null)} />
+      )}
     </section>
   );
 }
