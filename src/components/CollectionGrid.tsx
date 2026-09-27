@@ -324,6 +324,7 @@ export default function CollectionGrid({ fixedCollection }: { fixedCollection?: 
             collection: String(item.collection ?? item.category ?? "").trim(),
             tagline: item.description || (item.translations && item.translations.en && item.translations.en.description) || (item.translations && item.translations.tr && item.translations.tr.description) || item.tagline || "",
             image: item.image,
+            images: item.images,
             is_from_db: true,
             model: item.translations?.metadata?.model || "",
             concept: item.translations?.metadata?.concept || "",

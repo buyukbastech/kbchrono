@@ -42,7 +42,9 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
 
   if (watch.images && Array.isArray(watch.images)) {
     watch.images.forEach((img: string) => {
-      slides.push({ type: 'image', src: img });
+      if (!slides.some(s => s.src === img)) {
+        slides.push({ type: 'image', src: img });
+      }
     });
   }
 
