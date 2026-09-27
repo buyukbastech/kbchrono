@@ -59,29 +59,14 @@ function TransparentImage({ src, alt, className }: { src: string, alt: string, c
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         
-        const visited = new Uint8Array(canvas.width * canvas.height);
-        const stack = [
-          [0, 0], [canvas.width - 1, 0], 
-          [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1],
-          [Math.floor(canvas.width/2), 0], [Math.floor(canvas.width/2), canvas.height - 1],
-          [0, Math.floor(canvas.height/2)], [canvas.width - 1, Math.floor(canvas.height/2)]
-        ];
-        
-        // EN GÜVENLİ YÖNTEM: Sadece Kusursuz Beyazı (Stüdyo) Sil (> 240).
-        // Ancak bazı JPG'lerde sıkıştırma nedeniyle kenarlar 230 civarı olabiliyor.
-        const isWhite = (r: number, g: number, b: number) => r > 225 && g > 225 && b > 225;
-        
-        while(stack.length > 0) {
-          const [x, y] = stack.pop()!;
-          if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
-          const idx = y * canvas.width + x;
-          if (visited[idx]) continue;
-          
-          const i = idx * 4;
-          if (isWhite(data[i], data[i+1], data[i+2])) {
-            visited[idx] = 1;
-            data[i+3] = 0; // Şeffaf yap
-            stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
+        // Hızlı lineer (O(N)) tarama ile beyaz pikselleri sil.
+        // Flood-fill çok yavaştı ve ana thread'i kilitliyordu.
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          if (r > 235 && g > 235 && b > 235) {
+            data[i + 3] = 0; // Saydam yap
           }
         }
         ctx.putImageData(imageData, 0, 0);
