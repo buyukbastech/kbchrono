@@ -239,48 +239,7 @@ const WatchDetail = () => {
               />
             )}
             
-            {/* Hover Overlay mimicking the mobile design */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex flex-col justify-between p-6">
-              <div className="bg-background/95 backdrop-blur-md self-start p-4 md:p-6 border border-white/10 rounded-sm max-w-[85%] transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <p className="text-[10px] tracking-[0.3em] uppercase text-gradient-gold mb-2">
-                  {getVal("collection", watch.collection)}
-                </p>
-                <h2 className="text-xl md:text-2xl font-bold text-foreground leading-tight">
-                  {getVal("name", watch.name)}
-                </h2>
-              </div>
-              
-              <div className="bg-background/95 backdrop-blur-md self-end p-4 md:p-6 border border-white/10 rounded-sm w-full md:w-[85%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-auto">
-                <p className="text-lg md:text-xl font-bold text-gradient-gold mb-4">
-                  {watch.price ? (() => {
-                    const clean = watch.price.replace(/[₺$\s.]/g, '');
-                    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                    return `$ ${formatted}`;
-                  })() : ''}
-                </p>
-                <div className="flex flex-col gap-3">
-                  <a
-                    href="https://wa.me/905306044763"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="bg-gradient-gold text-primary-foreground px-4 py-3 text-[10px] tracking-[0.2em] uppercase font-semibold hover:opacity-90 transition-opacity text-center w-full"
-                  >
-                    {t("common.requestInfo")}
-                  </a>
-                  <a
-                    href="https://wa.me/905306044763"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="border border-white/20 text-foreground px-4 py-3 text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-white/5 transition-colors text-center w-full"
-                  >
-                    {t("common.bookViewing")}
-                  </a>
-                </div>
-              </div>
-            </div>
-            
+
             {/* Center Hint */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
               <span className="text-white text-xs tracking-widest uppercase border border-white/30 bg-black/30 px-6 py-2 rounded-full backdrop-blur-sm">
