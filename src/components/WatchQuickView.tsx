@@ -22,6 +22,13 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
     tagline: watch.tagline || ""
   });
   const name = i18n.language === "tr" ? watch.name : (watch.is_from_db ? translated.name || watch.name : t(`watches.${watch.id}.name`, { defaultValue: watch.name }));
+  const col  = i18n.language === "tr" ? watch.collection : (watch.is_from_db ? translated.collection || watch.collection : t(`watches.${watch.id}.collection`, { defaultValue: watch.collection }));
+
+  const formattedPrice = watch.price ? (() => {
+    const clean = String(watch.price).replace(/[₺$\s.]/g, '');
+    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `$ ${formatted}`;
+  })() : '';
 
   const slides: { type: '3d' | 'image', src: string }[] = [];
 
@@ -87,23 +94,54 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
         </div>
       </div>
 
-      {/* Navigation Arrows (Desktop) */}
-      {slides.length > 1 && (
-        <>
-          <button 
-            onClick={scrollPrev} 
-            className="hidden sm:flex absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 border border-white/10 rounded-full items-center justify-center text-white/70 hover:text-white transition-all z-20"
+      {/* Top Info Box */}
+      <div className="absolute top-16 left-4 sm:left-8 bg-black/90 backdrop-blur-xl p-4 sm:p-6 rounded-xl border border-white/10 max-w-[85vw] sm:max-w-md z-10 shadow-2xl animate-fade-in pointer-events-none" style={{ animationDelay: '0.1s' }}>
+        <p className="text-[9px] tracking-[0.3em] uppercase text-gradient-gold mb-2">{col}</p>
+        <h2 className="text-lg sm:text-xl font-semibold text-white leading-tight">{name}</h2>
+      </div>
+
+      {/* Bottom Action Box */}
+      <div className="absolute bottom-6 right-4 sm:right-8 bg-black/90 backdrop-blur-xl p-4 sm:p-6 rounded-xl border border-white/10 w-[calc(100%-2rem)] sm:w-80 z-10 shadow-2xl animate-fade-up pointer-events-auto" style={{ animationDelay: '0.2s' }}>
+        {formattedPrice && (
+          <div className="text-lg font-bold text-gradient-gold mb-4">
+            {formattedPrice}
+          </div>
+        )}
+        <div className="flex flex-col gap-3">
+          <a
+            href={`https://wa.me/905306044763?text=${encodeURIComponent(`I want to request information about ${name}.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full bg-gradient-gold text-primary-foreground py-3.5 text-[10px] tracking-[0.2em] uppercase font-bold text-center rounded-sm hover:opacity-90 transition-opacity"
           >
-            <ChevronLeft size={24} />
-          </button>
-          <button 
-            onClick={scrollNext} 
-            className="hidden sm:flex absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 border border-white/10 rounded-full items-center justify-center text-white/70 hover:text-white transition-all z-20"
-          >
-            <ChevronRight size={24} />
-          </button>
-        </>
-      )}
+            {t("common.requestInfo", "REQUEST INFORMATION")}
+          </a>
+          
+          {/* Book Viewing & Slider Navigation */}
+          <div className="flex items-center justify-between border border-white/20 rounded-sm px-4 py-3 bg-black/50 hover:bg-white/5 transition-colors">
+            {slides.length > 1 ? (
+              <button onClick={scrollPrev} className="text-white/70 hover:text-white transition-colors p-1" aria-label="Previous image">
+                <ChevronLeft size={16} />
+              </button>
+            ) : <div className="w-6" />}
+            
+            <a
+              href={`https://wa.me/905306044763?text=${encodeURIComponent(`I want to book a viewing for ${name}.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground text-[10px] tracking-[0.2em] uppercase font-semibold text-center"
+            >
+              {t("common.bookViewing", "BOOK VIEWING")}
+            </a>
+            
+            {slides.length > 1 ? (
+              <button onClick={scrollNext} className="text-white/70 hover:text-white transition-colors p-1" aria-label="Next image">
+                <ChevronRight size={16} />
+              </button>
+            ) : <div className="w-6" />}
+          </div>
+        </div>
+      </div>
 
     </div>
   );
