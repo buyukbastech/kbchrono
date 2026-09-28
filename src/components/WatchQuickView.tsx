@@ -94,6 +94,24 @@ export default function WatchQuickView({ watch, onClose }: { watch: any, onClose
         </div>
       </div>
 
+      {/* Navigation Arrows (Desktop) */}
+      {slides.length > 1 && (
+        <>
+          <button 
+            onClick={scrollPrev} 
+            className="hidden sm:flex absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 border border-white/10 rounded-full items-center justify-center text-white/70 hover:text-white transition-all z-20 pointer-events-auto"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button 
+            onClick={scrollNext} 
+            className="hidden sm:flex absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 border border-white/10 rounded-full items-center justify-center text-white/70 hover:text-white transition-all z-20 pointer-events-auto"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
+
       {/* Top Info Box */}
       <div className="absolute top-16 left-4 sm:left-8 bg-black/90 backdrop-blur-xl p-4 sm:p-6 rounded-xl border border-white/10 max-w-[85vw] sm:max-w-md z-10 shadow-2xl animate-fade-in pointer-events-none" style={{ animationDelay: '0.1s' }}>
         <p className="text-[9px] tracking-[0.3em] uppercase text-gradient-gold mb-2">{col}</p>
