@@ -109,16 +109,16 @@ export const StoreInfoPopup = () => {
           </div>
 
           <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-colors group">
-            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇹🇷</span>
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇺🇸</span>
             <span className="text-xs font-medium tracking-wider uppercase text-foreground/90">
-              {t("storePopup.cities.istanbul")}
+              {t("storePopup.cities.miami")}
             </span>
           </div>
 
           <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-colors group">
-            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇺🇸</span>
+            <span className="text-lg mb-1 group-hover:scale-110 transition-transform">🇹🇷</span>
             <span className="text-xs font-medium tracking-wider uppercase text-foreground/90">
-              {t("storePopup.cities.miami")}
+              {t("storePopup.cities.istanbul")}
             </span>
           </div>
         </div>

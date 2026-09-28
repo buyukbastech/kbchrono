@@ -150,7 +150,7 @@ const resources = {
       storePopup: {
         badge: "Boutique & Delivery Notice",
         title: "Exclusive Store Locations",
-        message: "Our stores are available in Dubai, Lebanon, Istanbul, and Miami with same-day delivery and cash on delivery options!",
+        message: "Our stores are available in Dubai, Lebanon, and Miami, Istanbul with same-day delivery and cash on delivery options!",
         cities: {
           dubai: "Dubai",
           istanbul: "Istanbul",
@@ -387,7 +387,7 @@ const resources = {
       storePopup: {
         badge: "Mağaza & Teslimat Bilgisi",
         title: "Seçkin Mağazalarımız",
-        message: "Dubai, Lübnan, İstanbul ve Miami'de aynı gün teslimat ve kapıda ödeme imkanıyla, mağazamız mevcuttur!",
+        message: "Dubai, Lübnan, Miami ve İstanbul'da aynı gün teslimat ve kapıda ödeme imkanıyla, mağazamız mevcuttur!",
         cities: {
           dubai: "Dubai",
           istanbul: "İstanbul",
@@ -624,7 +624,7 @@ const resources = {
       storePopup: {
         badge: "المتاجر والتوصيل",
         title: "متاجرنا الحصرية",
-        message: "تتوفر متاجرنا في دبي ولبنان وإسطنبول وميامي مع خدمة التوصيل في نفس اليوم والدفع عند الاستلام!",
+        message: "تتوفر متاجرنا في دبي ولبنان وميامي وإسطنبول مع خدمة التوصيل في نفس اليوم والدفع عند الاستلام!",
         cities: {
           dubai: "دبي",
           istanbul: "إسطنبول",
