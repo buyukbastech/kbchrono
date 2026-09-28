@@ -159,7 +159,7 @@ function WatchCard({ watch, onQuickView }: { watch: any; onQuickView: (w: any) =
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(watch); }}
             className="px-6 py-2.5 bg-black/80 backdrop-blur-md border border-white/20 text-[10px] tracking-[0.2em] uppercase text-white hover:bg-white hover:text-black transition-colors rounded-full whitespace-nowrap"
           >
-            {i18n.language === "tr" ? "HIZLI GÖRÜNÜM" : i18n.language === "ar" ? "نظرة سريعة" : "QUICK VIEW"}
+            {t("common.quickView")}
           </button>
         </div>
       </div>

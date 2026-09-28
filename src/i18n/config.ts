@@ -131,6 +131,7 @@ const resources = {
         behind: "Behind the Creation",
         requestInfo: "Request Information",
         bookViewing: "Book Viewing",
+        quickView: "QUICK VIEW",
         specLabels: {
           movement: "Movement",
           case_material: "Case Material",
@@ -366,6 +367,7 @@ const resources = {
         behind: "Yaratılışın Arkasında",
         requestInfo: "Bilgi Alın",
         bookViewing: "Randevu Alın",
+        quickView: "HIZLI GÖRÜNÜM",
         specLabels: {
           movement: "Mekanizma",
           case_material: "Kasa Materyali",
@@ -601,6 +603,7 @@ const resources = {
         behind: "خلف الكواليس",
         requestInfo: "طلب معلومات",
         bookViewing: "حجز موعد",
+        quickView: "نظرة سريعة",
         specLabels: {
           movement: "الحركة",
           case_material: "مادة العلبة",

@@ -243,7 +243,7 @@ const WatchDetail = () => {
             {/* Center Hint */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
               <span className="text-white text-xs tracking-widest uppercase border border-white/30 bg-black/30 px-6 py-2 rounded-full backdrop-blur-sm">
-                {i18n.language === "tr" ? "HIZLI GÖRÜNÜM" : i18n.language === "ar" ? "نظرة سريعة" : "QUICK VIEW"}
+                {t("common.quickView")}
               </span>
             </div>
           </div>
