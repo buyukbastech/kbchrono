@@ -11,8 +11,8 @@ const Jewellery = () => {
   return (
     <div className="min-h-screen" style={{ background: "#000000" }}>
       <LuxuryNav />
-      <div className="pt-32 pb-12 px-6">
-        <h1 className="text-4xl md:text-5xl text-gradient-gold font-bold tracking-[0.2em] uppercase text-center">Jewellery Collection</h1>
+      <div className="pt-28 pb-2 px-6">
+        <h1 className="text-3xl md:text-5xl text-gradient-gold font-bold tracking-[0.2em] uppercase text-center">Jewellery Collection</h1>
       </div>
       <CollectionGrid fixedCollection="Jewellery" />
       <LuxuryFooter />

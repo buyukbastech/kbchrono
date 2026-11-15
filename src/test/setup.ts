@@ -13,3 +13,13 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: () => {},
   }),
 });
+
+if (typeof window !== "undefined" && !("IntersectionObserver" in window)) {
+  class MockIntersectionObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  (window as any).IntersectionObserver = MockIntersectionObserver;
+  (globalThis as any).IntersectionObserver = MockIntersectionObserver;
+}
